@@ -1,0 +1,22 @@
+/*
+ * Author: Felix Schulze
+ * Date:   21/02/2015
+ *
+ *
+ */
+
+#ifndef MCP2515_H
+#define MCP2515_H
+
+#define MCP_SPI_RESET		0b11000000
+#define MCP_SPI_READ		0b00000011
+#define MCP_SPI_READ_RX_BUF	0b10010000
+#define MCP_SPI_WRITE		0b00000010
+#define MCP_SPI_LOAD_TF_BUF	0b01000000
+#define MCP_SPI_RTS			0b10000000
+#define MCP_SPI_READ_STAT	0b10100000
+#define MCP_SPI_RX_STAT		0b10110000
+#define MCP_SPI_BIT_MOD		0b00000101
+
+
+#endif
