@@ -43,7 +43,7 @@ void mcp_bit_mod(uint8_t addr, uint8_t mask, uint8_t data)
 
 	spi_trans(MCP_SPI_WRITE);
 	spi_trans(addr);
-	spi_trans(mask)
+	spi_trans(mask);
 	spi_trans(data);
 
 	PORT_CS |= (1<<P_CS);

@@ -1,0 +1,481 @@
+   1               		.file	"mcp2515.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	mcp_write_reg
+  12               	mcp_write_reg:
+  13               	.LFB6:
+  14               		.file 1 "mcp2515.c"
+   1:mcp2515.c     **** /*
+   2:mcp2515.c     ****  * Author: Felix Schulze
+   3:mcp2515.c     ****  * Date:   21/02/2015
+   4:mcp2515.c     ****  *
+   5:mcp2515.c     ****  *
+   6:mcp2515.c     ****  */
+   7:mcp2515.c     **** 
+   8:mcp2515.c     **** #include <util/delay.h>
+   9:mcp2515.c     **** #include "spi.h"
+  10:mcp2515.c     **** #include "mcp2515.h"
+  11:mcp2515.c     **** 
+  12:mcp2515.c     **** void mcp_write_reg(uint8_t addr, uint8_t data)
+  13:mcp2515.c     **** {
+  15               		.loc 1 13 0
+  16               		.cfi_startproc
+  17               	.LVL0:
+  18 0000 1F93      		push r17
+  19               	.LCFI0:
+  20               		.cfi_def_cfa_offset 3
+  21               		.cfi_offset 17, -2
+  22 0002 CF93      		push r28
+  23               	.LCFI1:
+  24               		.cfi_def_cfa_offset 4
+  25               		.cfi_offset 28, -3
+  26 0004 DF93      		push r29
+  27               	.LCFI2:
+  28               		.cfi_def_cfa_offset 5
+  29               		.cfi_offset 29, -4
+  30 0006 1F92      		push __zero_reg__
+  31               	.LCFI3:
+  32               		.cfi_def_cfa_offset 6
+  33 0008 CDB7      		in r28,__SP_L__
+  34 000a DEB7      		in r29,__SP_H__
+  35               	.LCFI4:
+  36               		.cfi_def_cfa_register 28
+  37               	/* prologue: function */
+  38               	/* frame size = 1 */
+  39               	/* stack size = 4 */
+  40               	.L__stack_usage = 4
+  41 000c 182F      		mov r17,r24
+  14:mcp2515.c     **** 	PORT_CS &= ~(1<<P_CS);
+  42               		.loc 1 14 0
+  43 000e C298      		cbi 0x18,2
+  15:mcp2515.c     **** 
+  16:mcp2515.c     **** 	spi_trans(MCP_SPI_WRITE);
+  44               		.loc 1 16 0
+  45 0010 82E0      		ldi r24,lo8(2)
+  46               	.LVL1:
+  47 0012 6983      		std Y+1,r22
+  48 0014 00D0      		rcall spi_trans
+  49               	.LVL2:
+  17:mcp2515.c     **** 	spi_trans(addr);
+  50               		.loc 1 17 0
+  51 0016 812F      		mov r24,r17
+  52 0018 00D0      		rcall spi_trans
+  53               	.LVL3:
+  18:mcp2515.c     **** 	spi_trans(data);
+  54               		.loc 1 18 0
+  55 001a 6981      		ldd r22,Y+1
+  56 001c 862F      		mov r24,r22
+  57 001e 00D0      		rcall spi_trans
+  58               	.LVL4:
+  19:mcp2515.c     **** 
+  20:mcp2515.c     **** 	PORT_CS |= (1<<P_CS);
+  59               		.loc 1 20 0
+  60 0020 C29A      		sbi 0x18,2
+  61               	/* epilogue start */
+  21:mcp2515.c     **** 	
+  22:mcp2515.c     **** 	return;
+  23:mcp2515.c     **** }
+  62               		.loc 1 23 0
+  63 0022 0F90      		pop __tmp_reg__
+  64 0024 DF91      		pop r29
+  65 0026 CF91      		pop r28
+  66 0028 1F91      		pop r17
+  67               	.LVL5:
+  68 002a 0895      		ret
+  69               		.cfi_endproc
+  70               	.LFE6:
+  72               	.global	mcp_read_reg
+  74               	mcp_read_reg:
+  75               	.LFB7:
+  24:mcp2515.c     **** 
+  25:mcp2515.c     **** uint8_t mcp_read_reg(uint8_t addr)
+  26:mcp2515.c     **** {
+  76               		.loc 1 26 0
+  77               		.cfi_startproc
+  78               	.LVL6:
+  79 002c CF93      		push r28
+  80               	.LCFI5:
+  81               		.cfi_def_cfa_offset 3
+  82               		.cfi_offset 28, -2
+  83               	/* prologue: function */
+  84               	/* frame size = 0 */
+  85               	/* stack size = 1 */
+  86               	.L__stack_usage = 1
+  87 002e C82F      		mov r28,r24
+  27:mcp2515.c     **** 	uint8_t data;
+  28:mcp2515.c     **** 
+  29:mcp2515.c     **** 	PORT_CS &= ~(1<<P_CS);
+  88               		.loc 1 29 0
+  89 0030 C298      		cbi 0x18,2
+  30:mcp2515.c     **** 
+  31:mcp2515.c     **** 	spi_trans(MCP_SPI_READ);
+  90               		.loc 1 31 0
+  91 0032 83E0      		ldi r24,lo8(3)
+  92               	.LVL7:
+  93 0034 00D0      		rcall spi_trans
+  94               	.LVL8:
+  32:mcp2515.c     **** 	spi_trans(addr);
+  95               		.loc 1 32 0
+  96 0036 8C2F      		mov r24,r28
+  97 0038 00D0      		rcall spi_trans
+  98               	.LVL9:
+  33:mcp2515.c     **** 	data = spi_trans(0xff);
+  99               		.loc 1 33 0
+ 100 003a 8FEF      		ldi r24,lo8(-1)
+ 101 003c 00D0      		rcall spi_trans
+ 102               	.LVL10:
+  34:mcp2515.c     **** 
+  35:mcp2515.c     **** 	PORT_CS |= (1<<P_CS);
+ 103               		.loc 1 35 0
+ 104 003e C29A      		sbi 0x18,2
+ 105               	/* epilogue start */
+  36:mcp2515.c     **** 	
+  37:mcp2515.c     **** 	return data;
+  38:mcp2515.c     **** }
+ 106               		.loc 1 38 0
+ 107 0040 CF91      		pop r28
+ 108               	.LVL11:
+ 109 0042 0895      		ret
+ 110               		.cfi_endproc
+ 111               	.LFE7:
+ 113               	.global	mcp_bit_mod
+ 115               	mcp_bit_mod:
+ 116               	.LFB8:
+  39:mcp2515.c     **** 
+  40:mcp2515.c     **** void mcp_bit_mod(uint8_t addr, uint8_t mask, uint8_t data)
+  41:mcp2515.c     **** {
+ 117               		.loc 1 41 0
+ 118               		.cfi_startproc
+ 119               	.LVL12:
+ 120 0044 1F93      		push r17
+ 121               	.LCFI6:
+ 122               		.cfi_def_cfa_offset 3
+ 123               		.cfi_offset 17, -2
+ 124 0046 CF93      		push r28
+ 125               	.LCFI7:
+ 126               		.cfi_def_cfa_offset 4
+ 127               		.cfi_offset 28, -3
+ 128 0048 DF93      		push r29
+ 129               	.LCFI8:
+ 130               		.cfi_def_cfa_offset 5
+ 131               		.cfi_offset 29, -4
+ 132 004a 00D0      		rcall .
+ 133               	.LCFI9:
+ 134               		.cfi_def_cfa_offset 7
+ 135 004c CDB7      		in r28,__SP_L__
+ 136 004e DEB7      		in r29,__SP_H__
+ 137               	.LCFI10:
+ 138               		.cfi_def_cfa_register 28
+ 139               	/* prologue: function */
+ 140               	/* frame size = 2 */
+ 141               	/* stack size = 5 */
+ 142               	.L__stack_usage = 5
+ 143 0050 182F      		mov r17,r24
+  42:mcp2515.c     **** 	PORT_CS &= ~(1<<P_CS);
+ 144               		.loc 1 42 0
+ 145 0052 C298      		cbi 0x18,2
+  43:mcp2515.c     **** 
+  44:mcp2515.c     **** 	spi_trans(MCP_SPI_WRITE);
+ 146               		.loc 1 44 0
+ 147 0054 82E0      		ldi r24,lo8(2)
+ 148               	.LVL13:
+ 149 0056 4A83      		std Y+2,r20
+ 150 0058 6983      		std Y+1,r22
+ 151 005a 00D0      		rcall spi_trans
+ 152               	.LVL14:
+  45:mcp2515.c     **** 	spi_trans(addr);
+ 153               		.loc 1 45 0
+ 154 005c 812F      		mov r24,r17
+ 155 005e 00D0      		rcall spi_trans
+ 156               	.LVL15:
+  46:mcp2515.c     **** 	spi_trans(mask);
+ 157               		.loc 1 46 0
+ 158 0060 6981      		ldd r22,Y+1
+ 159 0062 862F      		mov r24,r22
+ 160 0064 00D0      		rcall spi_trans
+ 161               	.LVL16:
+  47:mcp2515.c     **** 	spi_trans(data);
+ 162               		.loc 1 47 0
+ 163 0066 4A81      		ldd r20,Y+2
+ 164 0068 842F      		mov r24,r20
+ 165 006a 00D0      		rcall spi_trans
+ 166               	.LVL17:
+  48:mcp2515.c     **** 
+  49:mcp2515.c     **** 	PORT_CS |= (1<<P_CS);
+ 167               		.loc 1 49 0
+ 168 006c C29A      		sbi 0x18,2
+ 169               	/* epilogue start */
+  50:mcp2515.c     **** 	
+  51:mcp2515.c     **** 	return;
+  52:mcp2515.c     **** }
+ 170               		.loc 1 52 0
+ 171 006e 0F90      		pop __tmp_reg__
+ 172 0070 0F90      		pop __tmp_reg__
+ 173 0072 DF91      		pop r29
+ 174 0074 CF91      		pop r28
+ 175 0076 1F91      		pop r17
+ 176               	.LVL18:
+ 177 0078 0895      		ret
+ 178               		.cfi_endproc
+ 179               	.LFE8:
+ 181               	.global	mcp_init
+ 183               	mcp_init:
+ 184               	.LFB9:
+  53:mcp2515.c     **** 
+  54:mcp2515.c     **** void mcp_init(void)
+  55:mcp2515.c     **** {
+ 185               		.loc 1 55 0
+ 186               		.cfi_startproc
+ 187               	/* prologue: function */
+ 188               	/* frame size = 0 */
+ 189               	/* stack size = 0 */
+ 190               	.L__stack_usage = 0
+  56:mcp2515.c     **** 
+  57:mcp2515.c     **** 	spi_init();
+ 191               		.loc 1 57 0
+ 192 007a 00D0      		rcall spi_init
+ 193               	.LVL19:
+  58:mcp2515.c     **** 
+  59:mcp2515.c     **** 	PORT_CS &= ~(1<<P_CS);
+ 194               		.loc 1 59 0
+ 195 007c C298      		cbi 0x18,2
+  60:mcp2515.c     **** 	spi_trans(MCP_SPI_RESET);
+ 196               		.loc 1 60 0
+ 197 007e 80EC      		ldi r24,lo8(-64)
+ 198 0080 00D0      		rcall spi_trans
+ 199               	.LVL20:
+ 200               	.LBB6:
+ 201               	.LBB7:
+ 202               		.file 2 "/usr/avr/include/util/delay.h"
+   1:/usr/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/avr/include/util/delay.h **** 
+   6:/usr/avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/avr/include/util/delay.h **** 
+   9:/usr/avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/avr/include/util/delay.h **** 
+  12:/usr/avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/avr/include/util/delay.h ****      distribution.
+  16:/usr/avr/include/util/delay.h **** 
+  17:/usr/avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/avr/include/util/delay.h **** 
+  21:/usr/avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/avr/include/util/delay.h **** 
+  33:/usr/avr/include/util/delay.h **** /* $Id: delay.h.in 2385 2013-05-03 13:14:20Z joerg_wunsch $ */
+  34:/usr/avr/include/util/delay.h **** 
+  35:/usr/avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/avr/include/util/delay.h **** 
+  38:/usr/avr/include/util/delay.h **** #ifndef __HAS_DELAY_CYCLES
+  39:/usr/avr/include/util/delay.h **** #define __HAS_DELAY_CYCLES 1
+  40:/usr/avr/include/util/delay.h **** #endif
+  41:/usr/avr/include/util/delay.h **** 
+  42:/usr/avr/include/util/delay.h **** #include <inttypes.h>
+  43:/usr/avr/include/util/delay.h **** #include <util/delay_basic.h>
+  44:/usr/avr/include/util/delay.h **** #include <math.h>
+  45:/usr/avr/include/util/delay.h **** 
+  46:/usr/avr/include/util/delay.h **** /** \file */
+  47:/usr/avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  48:/usr/avr/include/util/delay.h ****     \code
+  49:/usr/avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  50:/usr/avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  51:/usr/avr/include/util/delay.h ****     #include <util/delay.h>
+  52:/usr/avr/include/util/delay.h ****     \endcode
+  53:/usr/avr/include/util/delay.h **** 
+  54:/usr/avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  55:/usr/avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  56:/usr/avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  57:/usr/avr/include/util/delay.h ****     used.
+  58:/usr/avr/include/util/delay.h **** 
+  59:/usr/avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  60:/usr/avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  61:/usr/avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  62:/usr/avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  63:/usr/avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  64:/usr/avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  65:/usr/avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  66:/usr/avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  67:/usr/avr/include/util/delay.h **** 
+  68:/usr/avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  69:/usr/avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  70:/usr/avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  71:/usr/avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  72:/usr/avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  73:/usr/avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  74:/usr/avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  75:/usr/avr/include/util/delay.h ****     routines linked into the application.
+  76:/usr/avr/include/util/delay.h **** 
+  77:/usr/avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  78:/usr/avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  79:/usr/avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  80:/usr/avr/include/util/delay.h **** 
+  81:/usr/avr/include/util/delay.h **** */
+  82:/usr/avr/include/util/delay.h **** 
+  83:/usr/avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:/usr/avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  85:/usr/avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  86:/usr/avr/include/util/delay.h **** #endif
+  87:/usr/avr/include/util/delay.h **** 
+  88:/usr/avr/include/util/delay.h **** #ifndef F_CPU
+  89:/usr/avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  90:/usr/avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  91:/usr/avr/include/util/delay.h **** # define F_CPU 1000000UL
+  92:/usr/avr/include/util/delay.h **** #endif
+  93:/usr/avr/include/util/delay.h **** 
+  94:/usr/avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  95:/usr/avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  96:/usr/avr/include/util/delay.h **** #endif
+  97:/usr/avr/include/util/delay.h **** 
+  98:/usr/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+  99:/usr/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 100:/usr/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 101:/usr/avr/include/util/delay.h **** #  include <math.h>
+ 102:/usr/avr/include/util/delay.h **** #endif
+ 103:/usr/avr/include/util/delay.h **** 
+ 104:/usr/avr/include/util/delay.h **** /**
+ 105:/usr/avr/include/util/delay.h ****    \ingroup util_delay
+ 106:/usr/avr/include/util/delay.h **** 
+ 107:/usr/avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 108:/usr/avr/include/util/delay.h **** 
+ 109:/usr/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 110:/usr/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 111:/usr/avr/include/util/delay.h **** 
+ 112:/usr/avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 113:/usr/avr/include/util/delay.h **** 
+ 114:/usr/avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 115:/usr/avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 116:/usr/avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 117:/usr/avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 118:/usr/avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 119:/usr/avr/include/util/delay.h **** 
+ 120:/usr/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 121:/usr/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 122:/usr/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 123:/usr/avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 124:/usr/avr/include/util/delay.h **** 
+ 125:/usr/avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 126:/usr/avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 127:/usr/avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 128:/usr/avr/include/util/delay.h **** 
+ 129:/usr/avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 130:/usr/avr/include/util/delay.h ****    to round down and round to closest integer.
+ 131:/usr/avr/include/util/delay.h **** 
+ 132:/usr/avr/include/util/delay.h ****    Note: The new implementation of _delay_ms(double __ms) with 
+ 133:/usr/avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible. 
+ 134:/usr/avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 135:/usr/avr/include/util/delay.h ****    Also, the backward compatible
+ 136:/usr/avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 137:/usr/avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 138:/usr/avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 139:/usr/avr/include/util/delay.h **** 
+ 140:/usr/avr/include/util/delay.h ****  */
+ 141:/usr/avr/include/util/delay.h **** void
+ 142:/usr/avr/include/util/delay.h **** _delay_ms(double __ms)
+ 143:/usr/avr/include/util/delay.h **** {
+ 144:/usr/avr/include/util/delay.h **** 	double __tmp ; 
+ 145:/usr/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 146:/usr/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 147:/usr/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 148:/usr/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 149:/usr/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 150:/usr/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 151:/usr/avr/include/util/delay.h **** 
+ 152:/usr/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 153:/usr/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 154:/usr/avr/include/util/delay.h **** 
+ 155:/usr/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 156:/usr/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 157:/usr/avr/include/util/delay.h **** 
+ 158:/usr/avr/include/util/delay.h **** 	#else
+ 159:/usr/avr/include/util/delay.h **** 		//round up by default
+ 160:/usr/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 161:/usr/avr/include/util/delay.h **** 	#endif
+ 162:/usr/avr/include/util/delay.h **** 
+ 163:/usr/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 203               		.loc 2 163 0
+ 204 0082 83E3      		ldi r24,lo8(1843)
+ 205 0084 97E0      		ldi r25,hi8(1843)
+ 206 0086 0197      		1: sbiw r24,1
+ 207 0088 01F4      		brne 1b
+ 208               	.LBE7:
+ 209               	.LBE6:
+  61:mcp2515.c     **** 	_delay_ms(1);
+  62:mcp2515.c     **** 	PORT_CS |= (1<<P_CS);
+ 210               		.loc 1 62 0
+ 211 008a C29A      		sbi 0x18,2
+ 212               	.LVL21:
+ 213               	.LBB8:
+ 214               	.LBB9:
+ 215               		.loc 2 163 0
+ 216 008c 8FEF      		ldi r24,lo8(18431)
+ 217 008e 97E4      		ldi r25,hi8(18431)
+ 218 0090 0197      		1: sbiw r24,1
+ 219 0092 01F4      		brne 1b
+ 220 0094 00C0      		rjmp .
+ 221 0096 0000      		nop
+ 222               	.LBE9:
+ 223               	.LBE8:
+  63:mcp2515.c     **** 	_delay_ms(10);
+  64:mcp2515.c     **** 
+  65:mcp2515.c     **** 	mcp_write_reg(CNF1, R_CNF1);
+ 224               		.loc 1 65 0
+ 225 0098 67E0      		ldi r22,lo8(7)
+ 226 009a 8AE2      		ldi r24,lo8(42)
+ 227 009c 00D0      		rcall mcp_write_reg
+ 228               	.LVL22:
+  66:mcp2515.c     **** 	mcp_write_reg(CNF2, R_CNF2);
+ 229               		.loc 1 66 0
+ 230 009e 60E9      		ldi r22,lo8(-112)
+ 231 00a0 89E2      		ldi r24,lo8(41)
+ 232 00a2 00D0      		rcall mcp_write_reg
+ 233               	.LVL23:
+  67:mcp2515.c     **** 	mcp_write_reg(CNF3, R_CNF3);
+ 234               		.loc 1 67 0
+ 235 00a4 62E0      		ldi r22,lo8(2)
+ 236 00a6 88E2      		ldi r24,lo8(40)
+ 237 00a8 00C0      		rjmp mcp_write_reg
+ 238               	.LVL24:
+ 239               		.cfi_endproc
+ 240               	.LFE9:
+ 242               	.Letext0:
+ 243               		.file 3 "/usr/avr/include/stdint.h"
+ 244               		.file 4 "spi.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 mcp2515.c
+     /tmp/ccX3Pyvn.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccX3Pyvn.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccX3Pyvn.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccX3Pyvn.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccX3Pyvn.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccX3Pyvn.s:12     .text:0000000000000000 mcp_write_reg
+     /tmp/ccX3Pyvn.s:74     .text:000000000000002c mcp_read_reg
+     /tmp/ccX3Pyvn.s:115    .text:0000000000000044 mcp_bit_mod
+     /tmp/ccX3Pyvn.s:183    .text:000000000000007a mcp_init
+
+UNDEFINED SYMBOLS
+spi_trans
+spi_init

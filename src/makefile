@@ -34,16 +34,16 @@
 # mth 2004/09
 # Differences from WinAVR 20040720 sample:
 # - DEPFLAGS according to Eric Weddingtion's fix (avrfreaks/gcc-forum)
-# - F_OSC Define in CFLAGS and AFLAGS
+# - F_CPU Define in CFLAGS and AFLAGS
 
 
 # MCU name
 MCU = atmega8
 
 # Main Oscillator Frequency
-# This is only used to define F_OSC in all assembler and c-sources.
-#F_OSC = 16000000
-F_OSC = 7372600
+# This is only used to define F_CPU in all assembler and c-sources.
+#F_CPU = 16000000
+F_CPU = 7372800
 
 # Output format. (can be srec, ihex, binary)
 FORMAT = ihex
@@ -53,7 +53,7 @@ TARGET = main
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC = $(TARGET).c
+SRC = $(TARGET).c uart.c spi.c mcp2515.c
 
 
 # List Assembler source files here.
@@ -112,7 +112,7 @@ CFLAGS += -Wall -Wstrict-prototypes
 CFLAGS += -Wa,-adhlns=$(<:.c=.lst)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))
 CFLAGS += $(CSTANDARD)
-CFLAGS += -DF_OSC=$(F_OSC)
+CFLAGS += -DF_CPU=$(F_CPU)
 
 
 
@@ -124,7 +124,7 @@ CFLAGS += -DF_OSC=$(F_OSC)
 #             and function names needs to be present in the assembler source
 #             files -- see avr-libc docs [FIXME: not yet described there]
 ASFLAGS = -Wa,-adhlns=$(<:.S=.lst),-gstabs
-ASFLAGS += -DF_OSC=$(F_OSC)
+ASFLAGS += -DF_CPU=$(F_CPU)
 
 
 #Additional libraries.
@@ -178,7 +178,7 @@ LDFLAGS += $(PRINTF_LIB) $(SCANF_LIB) $(MATH_LIB)
 # Type: avrdude -c ?
 # to get a full listing.
 #
-AVRDUDE_PROGRAMMER =  avrispmkII
+AVRDUDE_PROGRAMMER =  avr910
 
 # com1 = serial port. Use lpt1 to connect to parallel port.
 AVRDUDE_PORT = /dev/ttyUSB0   # programmer connected to serial device
