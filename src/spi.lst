@@ -1,0 +1,108 @@
+   1               		.file	"spi.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	spi_init
+  12               	spi_init:
+  13               	.LFB0:
+  14               		.file 1 "spi.c"
+   1:spi.c         **** /*
+   2:spi.c         ****  * Author: Felix Schulze
+   3:spi.c         ****  * Date:   21/02/2015
+   4:spi.c         ****  *
+   5:spi.c         ****  *
+   6:spi.c         ****  */
+   7:spi.c         **** 
+   8:spi.c         **** 
+   9:spi.c         **** #include <avr/io.h>
+  10:spi.c         **** #include "spi.h"
+  11:spi.c         **** 
+  12:spi.c         **** void spi_init(void)
+  13:spi.c         **** {
+  15               		.loc 1 13 0
+  16               		.cfi_startproc
+  17               	/* prologue: function */
+  18               	/* frame size = 0 */
+  19               	/* stack size = 0 */
+  20               	.L__stack_usage = 0
+  14:spi.c         **** 
+  15:spi.c         **** 	DDR_SPI |= (1<<P_SCK) | (1<<P_MOSI);
+  21               		.loc 1 15 0
+  22 0000 87B3      		in r24,0x17
+  23 0002 8862      		ori r24,lo8(40)
+  24 0004 87BB      		out 0x17,r24
+  16:spi.c         **** 	PORT_SPI &= ~((1<<P_SCK) | (1<<P_MOSI) | (1<<P_MISO));
+  25               		.loc 1 16 0
+  26 0006 88B3      		in r24,0x18
+  27 0008 877C      		andi r24,lo8(-57)
+  28 000a 88BB      		out 0x18,r24
+  17:spi.c         **** 
+  18:spi.c         **** 	DDR_CS |= (1<<P_CS);
+  29               		.loc 1 18 0
+  30 000c BA9A      		sbi 0x17,2
+  19:spi.c         **** 	PORT_CS |= (1<<P_CS);
+  31               		.loc 1 19 0
+  32 000e C29A      		sbi 0x18,2
+  20:spi.c         **** 
+  21:spi.c         **** 	SPCR = (1<<SPE) |  (1<<MSTR);
+  33               		.loc 1 21 0
+  34 0010 80E5      		ldi r24,lo8(80)
+  35 0012 8DB9      		out 0xd,r24
+  22:spi.c         **** 	SPSR = (1<<SPI2X);
+  36               		.loc 1 22 0
+  37 0014 81E0      		ldi r24,lo8(1)
+  38 0016 8EB9      		out 0xe,r24
+  39 0018 0895      		ret
+  40               		.cfi_endproc
+  41               	.LFE0:
+  43               	.global	spi_trans
+  45               	spi_trans:
+  46               	.LFB1:
+  23:spi.c         **** }
+  24:spi.c         **** 
+  25:spi.c         **** uint8_t spi_trans(uint8_t data)
+  26:spi.c         **** {
+  47               		.loc 1 26 0
+  48               		.cfi_startproc
+  49               	.LVL0:
+  50               	/* prologue: function */
+  51               	/* frame size = 0 */
+  52               	/* stack size = 0 */
+  53               	.L__stack_usage = 0
+  27:spi.c         **** 	SPDR = data;
+  54               		.loc 1 27 0
+  55 001a 8FB9      		out 0xf,r24
+  56               	.L3:
+  28:spi.c         **** 
+  29:spi.c         **** 	while(!(SPSR & (1<<SPIF)));
+  57               		.loc 1 29 0 discriminator 1
+  58 001c 779B      		sbis 0xe,7
+  59 001e 00C0      		rjmp .L3
+  30:spi.c         **** 
+  31:spi.c         **** 	return SPDR;
+  60               		.loc 1 31 0
+  61 0020 8FB1      		in r24,0xf
+  62               	.LVL1:
+  32:spi.c         **** }...
+  63               		.loc 1 32 0
+  64 0022 0895      		ret
+  65               		.cfi_endproc
+  66               	.LFE1:
+  68               	.Letext0:
+  69               		.file 2 "/usr/avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 spi.c
+     /tmp/cckiUJrP.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cckiUJrP.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cckiUJrP.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cckiUJrP.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cckiUJrP.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cckiUJrP.s:12     .text:0000000000000000 spi_init
+     /tmp/cckiUJrP.s:45     .text:000000000000001a spi_trans
+
+NO UNDEFINED SYMBOLS

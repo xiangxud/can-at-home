@@ -26,8 +26,16 @@
 
 int main(void)
 {
+
+	stdCanmsg msg;
 	DDR_LED0 |= (1<<LED0);
 	DDR_LED1 |= (1<<LED1);
+
+	msg.id = 0x0123;
+	msg.rtr = 0;
+	msg.length = 2;
+	msg.data[0] = 0x04;
+	msg.data[1] = 0xf3;
 
 
 	uart_init(BAUD_SELECT(BAUD, F_CPU));
@@ -38,8 +46,11 @@ int main(void)
 
 	mcp_init();
 	PORT_LED1 |= (1<<LED1);
-	uart_puts(":: Init mcp2515");
+	uart_puts(":: Init mcp2515\n\r");
 	PORT_LED0 |= (1<<LED0);
+
+	uart_puts(":: send test message\n\r");
+	can_send_message(&msg);
 
 
 	while(1);

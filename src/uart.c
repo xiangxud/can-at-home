@@ -17,6 +17,8 @@ void uart_init(unsigned int baudrate)
 
     UCSRB = (1<<TXEN) | (1<<RXEN);
     UCSRC = (1<<URSEL) | (1<<UCSZ1) | (1<<UCSZ0);
+
+    return;
    
 }
 
@@ -24,7 +26,6 @@ void uart_putc(unsigned char data)
 {
     // uart data register empty ?
     while(!(UCSRA & (1<<UDRE)));
-
     UDR = data;
 
     return;
@@ -34,5 +35,7 @@ void uart_puts(const char *s )
 {
     while (*s) 
       uart_putc(*s++);
+
+  return;
 
 }

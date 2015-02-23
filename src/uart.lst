@@ -1,0 +1,149 @@
+   1               		.file	"uart.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__tmp_reg__ = 0
+   6               	__zero_reg__ = 1
+   7               		.text
+   8               	.Ltext0:
+   9               		.cfi_sections	.debug_frame
+  10               	.global	uart_init
+  12               	uart_init:
+  13               	.LFB0:
+  14               		.file 1 "uart.c"
+   1:uart.c        **** /*
+   2:uart.c        ****  * Author: Felix Schulze
+   3:uart.c        ****  * Date:   22/02/2015
+   4:uart.c        ****  *
+   5:uart.c        ****  *
+   6:uart.c        ****  */
+   7:uart.c        **** 
+   8:uart.c        **** #include <avr/io.h>
+   9:uart.c        **** #include "uart.h"
+  10:uart.c        **** 
+  11:uart.c        **** void uart_init(unsigned int baudrate)
+  12:uart.c        **** {
+  15               		.loc 1 12 0
+  16               		.cfi_startproc
+  17               	.LVL0:
+  18               	/* prologue: function */
+  19               	/* frame size = 0 */
+  20               	/* stack size = 0 */
+  21               	.L__stack_usage = 0
+  13:uart.c        ****     
+  14:uart.c        ****     UBRRL = (unsigned char) baudrate;
+  22               		.loc 1 14 0
+  23 0000 89B9      		out 0x9,r24
+  15:uart.c        ****     UBRRH = (unsigned char)(baudrate>>8);
+  24               		.loc 1 15 0
+  25 0002 90BD      		out 0x20,r25
+  16:uart.c        **** 
+  17:uart.c        **** 
+  18:uart.c        ****     UCSRB = (1<<TXEN) | (1<<RXEN);
+  26               		.loc 1 18 0
+  27 0004 88E1      		ldi r24,lo8(24)
+  28               	.LVL1:
+  29 0006 8AB9      		out 0xa,r24
+  19:uart.c        ****     UCSRC = (1<<URSEL) | (1<<UCSZ1) | (1<<UCSZ0);
+  30               		.loc 1 19 0
+  31 0008 86E8      		ldi r24,lo8(-122)
+  32 000a 80BD      		out 0x20,r24
+  33 000c 0895      		ret
+  34               		.cfi_endproc
+  35               	.LFE0:
+  37               	.global	uart_putc
+  39               	uart_putc:
+  40               	.LFB1:
+  20:uart.c        **** 
+  21:uart.c        ****     return;
+  22:uart.c        ****    
+  23:uart.c        **** }
+  24:uart.c        **** 
+  25:uart.c        **** void uart_putc(unsigned char data)
+  26:uart.c        **** {
+  41               		.loc 1 26 0
+  42               		.cfi_startproc
+  43               	/* prologue: function */
+  44               	/* frame size = 0 */
+  45               	/* stack size = 0 */
+  46               	.L__stack_usage = 0
+  47               	.LVL2:
+  48               	.L3:
+  27:uart.c        ****     // uart data register empty ?
+  28:uart.c        ****     while(!(UCSRA & (1<<UDRE)));
+  49               		.loc 1 28 0 discriminator 1
+  50 000e 5D9B      		sbis 0xb,5
+  51 0010 00C0      		rjmp .L3
+  29:uart.c        ****     UDR = data;
+  52               		.loc 1 29 0
+  53 0012 8CB9      		out 0xc,r24
+  54 0014 0895      		ret
+  55               		.cfi_endproc
+  56               	.LFE1:
+  58               	.global	uart_puts
+  60               	uart_puts:
+  61               	.LFB2:
+  30:uart.c        **** 
+  31:uart.c        ****     return;
+  32:uart.c        **** }
+  33:uart.c        **** 
+  34:uart.c        **** void uart_puts(const char *s )
+  35:uart.c        **** {
+  62               		.loc 1 35 0
+  63               		.cfi_startproc
+  64               	.LVL3:
+  65 0016 CF93      		push r28
+  66               	.LCFI0:
+  67               		.cfi_def_cfa_offset 3
+  68               		.cfi_offset 28, -2
+  69 0018 DF93      		push r29
+  70               	.LCFI1:
+  71               		.cfi_def_cfa_offset 4
+  72               		.cfi_offset 29, -3
+  73               	/* prologue: function */
+  74               	/* frame size = 0 */
+  75               	/* stack size = 2 */
+  76               	.L__stack_usage = 2
+  77 001a EC01      		movw r28,r24
+  78               	.LVL4:
+  79               	.L8:
+  36:uart.c        ****     while (*s) 
+  80               		.loc 1 36 0
+  81 001c 8991      		ld r24,Y+
+  82               	.LVL5:
+  83 001e 8823      		tst r24
+  84 0020 01F0      		breq .L10
+  85               	.LVL6:
+  37:uart.c        ****       uart_putc(*s++);
+  86               		.loc 1 37 0
+  87 0022 00D0      		rcall uart_putc
+  88               	.LVL7:
+  89 0024 00C0      		rjmp .L8
+  90               	.LVL8:
+  91               	.L10:
+  92               	/* epilogue start */
+  38:uart.c        **** 
+  39:uart.c        ****   return;
+  40:uart.c        **** 
+  41:uart.c        **** }...
+  93               		.loc 1 41 0
+  94 0026 DF91      		pop r29
+  95 0028 CF91      		pop r28
+  96               	.LVL9:
+  97 002a 0895      		ret
+  98               		.cfi_endproc
+  99               	.LFE2:
+ 101               	.Letext0:
+ 102               		.file 2 "/usr/avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 uart.c
+     /tmp/cc4h49SM.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/cc4h49SM.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/cc4h49SM.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/cc4h49SM.s:5      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/cc4h49SM.s:6      *ABS*:0000000000000001 __zero_reg__
+     /tmp/cc4h49SM.s:12     .text:0000000000000000 uart_init
+     /tmp/cc4h49SM.s:39     .text:000000000000000e uart_putc
+     /tmp/cc4h49SM.s:60     .text:0000000000000016 uart_puts
+
+NO UNDEFINED SYMBOLS
