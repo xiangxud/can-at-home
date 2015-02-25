@@ -20,6 +20,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
+#include <stdlib.h>
 #include "uart.h"
 #include "mcp2515.h"
 
@@ -28,6 +29,8 @@ int main(void)
 {
 
 	stdCanmsg msg;
+	uint8_t i = 0;
+	char buffer[9];
 	DDR_LED0 |= (1<<LED0);
 	DDR_LED1 |= (1<<LED1);
 
@@ -49,8 +52,13 @@ int main(void)
 	uart_puts(":: Init mcp2515\n\r");
 	PORT_LED0 |= (1<<LED0);
 
-	uart_puts(":: send test message\n\r");
+	i = mcp_read_reg(CANSTAT);
+	itoa(i, buffer, 2);
+	uart_puts(buffer);
+
+	
 	can_send_message(&msg);
+	uart_puts(":: send test message\n\r");
 
 
 	while(1);

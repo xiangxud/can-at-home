@@ -219,11 +219,11 @@
 
 #define RTR 7
 
-#if(BITRATE == 125)
+//#if(BITRATE == 125)
 	#define R_CNF1 (1<<BRP2) | (1<<BRP1) | (1<<BRP0)
 	#define R_CNF2 (1<<BTLMODE) | (1<<PHSEG11)
 	#define R_CNF3 (1<<PHSEG21)
- 	#endif
+ 	//#endif
 
 
 typedef struct
