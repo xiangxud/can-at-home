@@ -83,18 +83,19 @@ void mcp_init(void)
 	mcp_write_reg( RXM1EID8, 0 );
 	mcp_write_reg( RXM1EID0, 0 );
 
+	// enable normal mode
+   	//mcp_bit_mod( CANCTRL, 0xE0, 0);
 
-   	mcp_bit_mod( CANCTRL, 0xE0, 0);
-
+	// for debugging enable loopback mode
+	mcp_bit_mod(CANCTRL, 0xE0, 0x40);
 	return;
 }
 
 
-uint8_t can_send_msg(stdCanmsg *s_msg)
+uint8_t can_send_msg(Canmsg *s_msg)
 {
 
 	uint8_t addr;
-	
 
 	if(s_msg->length > 8)
 		return 2;
@@ -154,4 +155,69 @@ uint8_t can_send_msg(stdCanmsg *s_msg)
    	PORT_CS |= (1<<P_CS);
 
    	return 0;
+}
+
+uint8_t mcp_read_rx_stat(void)
+{
+	uint8_t data;
+	PORT_CS &= ~(1<<P_CS);
+	spi_trans(SPI_RX_STAT);
+	data = spi_trans(0xff);
+	spi_trans(0xff);
+	PORT_CS |= (1<<P_CS);
+
+	return data;
+}
+
+uint8_t can_get_msg(Canmsg *s_msg)
+{
+	uint8_t status = mcp_read_rx_stat();
+
+	// message in buffer0
+	if(status & (1<<6)) 
+	{
+		PORT_CS &= ~(1<<P_CS);
+		spi_trans(SPI_READ_RX_BUF);
+	}
+	// message in buffer1
+	else if(status & (1<<7))
+	{
+		PORT_CS &= ~(1<<P_CS);
+		spi_trans(SPI_READ_RX_BUF | 0x04);
+	}
+	// no message
+	else
+	{
+		return 1;
+	}
+
+	// read std id
+	s_msg -> id = (uint16_t) spi_trans(0xff) << 3;
+	s_msg -> id |= (uint16_t) spi_trans(0xff) >> 5;
+
+	// jump over register for ext id
+	spi_trans(0xff);
+	spi_trans(0xff);
+
+	s_msg->length = spi_trans(0xff) & 0x0f;
+
+	for(uint8_t i =0 ; i < s_msg->length; i++)
+		s_msg->data[i] = spi_trans(0xff);
+
+	PORT_CS |= (1<<P_CS);
+
+	// rtr msg ?
+	if(status & (1<<3))
+		s_msg->rtr = 1;
+	else
+		s_msg->rtr = 0;
+
+	// clear interrupt flag for mcp2515
+	if(status & (1<<6))
+		mcp_bit_mod(CANINTF, (1<<RX0IF), 0);
+	else
+		mcp_bit_mod(CANINTF, (1<<RX1IF), 0);
+
+	return 0;
+
 }

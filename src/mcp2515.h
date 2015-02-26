@@ -241,15 +241,8 @@ typedef struct
     uint8_t   rtr;
     uint8_t   length;
     uint8_t   data[8];
-} stdCanmsg;
+} Canmsg;
 
-typedef struct
-{
-    uint32_t  id;
-    uint8_t   rtr;
-    uint8_t   length;
-    uint8_t   data[8];
-} extCanmsg;
 
 
 void mcp_write_reg(uint8_t addr, uint8_t data);
@@ -260,6 +253,10 @@ void mcp_bit_mod(uint8_t addr, uint8_t mask, uint8_t data);
 
 void mcp_init(void);
 
-void can_send_message(stdCanmsg *s_msg);
+uint8_t can_send_msg(Canmsg *s_msg);
+
+uint8_t mcp_read_rx_stat(void);
+
+uint8_t can_get_msg(Canmsg *s_msg);
 
 #endif

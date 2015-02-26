@@ -28,9 +28,9 @@
 int main(void)
 {
 
-	stdCanmsg msg;
-	uint8_t i = 0;
-	char buffer[9];
+	Canmsg msg;
+	Canmsg newmsg;
+
 
 	DDR_LED0 |= (1<<LED0);
 	DDR_LED1 |= (1<<LED1);
@@ -46,19 +46,30 @@ int main(void)
 	
 	uart_puts("CAN-Demo Code\n\rFelix Schulze 2015\n\rmail@felixschulze.com\n\r\n\r");
 	mcp_init();
+	mcp_read_reg(CANCTRL);
 	uart_puts(":: Init mcp2515\n\r");
+
 
 	PORT_LED0 |= (1<<LED0);
 
 	
 	
-	i = can_send_msg(&msg);
-	itoa(i, buffer, 16);
+	can_send_msg(&msg);
+	
 	uart_puts(":: send test message\n\r");
-	uart_puts(buffer);
 
 
-	while(1);
+
+	while(1)
+	{
+
+		
+	
+		if(can_get_msg(&newmsg) == 0)
+		{
+			uart_can_msg(&newmsg);
+		}
+	}
 
   
 	return 0;
