@@ -22,7 +22,7 @@
 #define SPI_READ 0b00000011
 #define SPI_READ_RX_BUF 0b10010000
 #define SPI_WRITE 0b00000010
-#define SPI_LOAD_TF_BUF 0b01000000
+#define SPI_LOAD_TX_BUF 0b01000000
 #define SPI_RTS 0b10000000
 #define SPI_READ_STAT 0b10100000
 #define SPI_RX_STAT 0b10110000
@@ -216,15 +216,24 @@
 #define RXM0 5
 #define RXM1 6
 #define RSM1 6
-
 #define RTR 7
 
-//#if(BITRATE == 125)
+#define CANINTF_RX0IF 0
+#define CANINTFL_RX1IF 1
+#define TXB0CNTRL_TXREQ 2
+#define CANINTF_TX0IF 3
+#define TXB1CNTRL_TXREQ 4
+#define CANINTF_TX1IF 5
+#define TXB2CNTRL_TXREQ 6
+#define CANINTF_TX2IF 7
+
+
+
+#if(BITRATE == 125)
 	#define R_CNF1 (1<<BRP2) | (1<<BRP1) | (1<<BRP0)
 	#define R_CNF2 (1<<BTLMODE) | (1<<PHSEG11)
 	#define R_CNF3 (1<<PHSEG21)
- 	//#endif
-
+ 	#endif
 
 typedef struct
 {
