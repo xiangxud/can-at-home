@@ -1,9 +1,9 @@
 /*
  * Author: Felix Schulze
- * Date:   21/02/2015
+ * Date:    28/02/2015
  *
- * Desc:   Can-Demo Code
- * Ver.:   0.01
+ * Desc:   AVR Atmega8 Can-Demo Code
+ * Ver.:      0.02
  *
  */
 
@@ -44,7 +44,7 @@ int main(void)
 
 	uart_init(BAUD_SELECT(BAUD, F_CPU));
 	
-	uart_puts("CAN-Demo Code\n\rFelix Schulze 2015\n\rmail@felixschulze.com\n\r\n\r");
+	uart_puts("AVR-CAN-Demo Code\n\rFelix Schulze 2015\n\rmail@felixschulze.com\n\r\n\r");
 	mcp_init();
 	mcp_read_reg(CANCTRL);
 	uart_puts(":: Init mcp2515\n\r");

@@ -1,11 +1,10 @@
-/*
+/*	
  * Author: Felix Schulze
- * Date:   21/02/2015
+ * Date:   28/02/2015
  *
  *
  */
 
-#include <util/delay.h>
 #include "spi.h"
 #include "mcp2515.h"
 
@@ -104,7 +103,6 @@ uint8_t can_send_msg(Canmsg *s_msg)
 	PORT_CS &= ~(1<<P_CS);
    	spi_trans(SPI_READ_STAT);
    	addr = spi_trans(0xff);
-   	spi_trans(0xff);
    	PORT_CS |= (1<<P_CS);
 
    	if(!(addr & (1<<TXB0CNTRL_TXREQ)))
@@ -163,7 +161,6 @@ uint8_t mcp_read_rx_stat(void)
 	PORT_CS &= ~(1<<P_CS);
 	spi_trans(SPI_RX_STAT);
 	data = spi_trans(0xff);
-	spi_trans(0xff);
 	PORT_CS |= (1<<P_CS);
 
 	return data;
