@@ -1,11 +1,11 @@
-/*
- * Author: Felix Schulze
- * Date:    28/02/2015
- *
- * Desc:   Makefile
- * Ver.:      0.01
- *
- */
+#
+# Author: Felix Schulze
+# Date:    28/02/2015
+#
+# Desc:   Makefile
+# Ver.:      0.01
+#
+#
 
 TARGET = demo
 SRC = main.c

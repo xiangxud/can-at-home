@@ -5,6 +5,7 @@
  *
  */
 
+#include <stdint.h>
 #include "spi.h"
 #include "mcp2515.h"
 

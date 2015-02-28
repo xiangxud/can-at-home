@@ -10,7 +10,7 @@
 #define MCP2515_H
 
 
-#include <stdlib.h>
+#include <stdint.h>
 
 //Define bitrate in kbps
 #define BITRATE 125
