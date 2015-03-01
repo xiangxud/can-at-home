@@ -9,18 +9,23 @@
 
 TARGET = demo
 
-all: main.o bcm2835.o
-	gcc -o $(TARGET) main.o bcm2835.o 
+all: main.o bcm2835.o mcp2515.o
+	gcc -o $(TARGET) main.o bcm2835.o mcp2515.o
 
 main.o: main.c
 	gcc -c -std=gnu99 main.c -Wall
 
 bcm2835.o: bcm2835.c
-	gcc -c -std=gnu99 bcm2835.c -Wall
+	gcc -c -std=gnu99 bcm2835.c -Wno-pointer-to-int-cast
+
+mcp2515.o: mcp2515.c
+	gcc -c -std=gnu99 mcp2515.c -Wall
+
 
 
 
 clean:
-	rm $(TARGET)
-	rm main.o
-	rm bcm2835.o
+	rm -f $(TARGET)
+	rm -f main.o
+	rm -f bcm2835.o
+	rm -f mcp2515.o
