@@ -43,11 +43,6 @@ int main(int argc, char ** argv)
 	}
 
 
-	msg.id = 0x0123;
-	msg.rtr = 0;
-	msg.length = 2;
-	msg.data[0] = 0x04;
-	msg.data[1] = 0xf3;
 
 	// Init the spi interface
 	if (!bcm2835_init())

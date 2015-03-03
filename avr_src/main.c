@@ -37,9 +37,11 @@ int main(void)
 
 	msg.id = 0x0123;
 	msg.rtr = 0;
-	msg.length = 2;
-	msg.data[0] = 0x04;
-	msg.data[1] = 0xf3;
+	msg.length = 4;
+	msg.data[0] = 0x01;
+	msg.data[1] = 0x02;
+	msg.data[2] = 0x03;
+	msg.data[3] = 0x04;
 
 
 	uart_init(BAUD_SELECT(BAUD, F_CPU));

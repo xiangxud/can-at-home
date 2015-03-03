@@ -84,10 +84,10 @@ void mcp_init(void)
 	mcp_write_reg( RXM1EID0, 0 );
 
 	// enable normal mode
-   	//mcp_bit_mod( CANCTRL, 0xE0, 0);
+   	mcp_bit_mod( CANCTRL, 0xE0, 0);
 
 	// for debugging enable loopback mode
-	mcp_bit_mod(CANCTRL, 0xE0, 0x40);
+	//mcp_bit_mod(CANCTRL, 0xE0, 0x40);
 	return;
 }
 
@@ -120,11 +120,6 @@ uint8_t can_send_msg(Canmsg *s_msg)
 	PORT_CS &= ~(1<<P_CS);
 	spi_trans(SPI_LOAD_TX_BUF  | addr);
 	
-	// send std id to mcp2515
-	/*
-	mcp_write_reg(TXB0SIDH, (uint8_t) (s_msg->id>>3));
-	mcp_write_reg(TXB0SIDL, (uint8_t) (s_msg->id<<5));
-	*/
    
   	spi_trans((uint8_t) (s_msg->id>>3));
    	spi_trans((uint8_t) (s_msg->id<<5));
