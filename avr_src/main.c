@@ -46,7 +46,6 @@ int main(void)
 	
 	uart_puts("AVR-CAN-Demo Code\n\rFelix Schulze 2015\n\rmail@felixschulze.com\n\r\n\r");
 	mcp_init();
-	mcp_read_reg(CANCTRL);
 	uart_puts(":: Init mcp2515\n\r");
 
 
