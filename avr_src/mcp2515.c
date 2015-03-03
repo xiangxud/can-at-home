@@ -118,7 +118,7 @@ uint8_t can_send_msg(Canmsg *s_msg)
 
 
 	PORT_CS &= ~(1<<P_CS);
-	spi_trans(SPI_WRITE | addr);
+	spi_trans(SPI_LOAD_TX_BUF  | addr);
 	
 	// send std id to mcp2515
 	mcp_write_reg(TXB0SIDH, (uint8_t) (s_msg->id>>3));

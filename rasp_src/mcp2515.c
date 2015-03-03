@@ -112,8 +112,8 @@ uint8_t can_send_msg(Canmsg *s_msg)
 
    	
 
-   	char buf[18] = {SPI_WRITE | addr, SPI_WRITE, TXB0SIDH, (uint8_t) (s_msg->id>>3), SPI_WRITE, TXB0SIDL, (uint8_t) (s_msg->id<<5), 0, 0};
-   	uint8_t bufsize = 7+1+s_msg->length;
+   	char buf[18] = {SPI_LOAD_TX_BUF | addr, SPI_WRITE, TXB0SIDH, (uint8_t) (s_msg->id>>3), SPI_WRITE, TXB0SIDL, (uint8_t) (s_msg->id<<5), 0, 0};
+   	uint8_t bufsize = 9+1+s_msg->length;
 
    	// if request ?
    	if(s_msg->rtr)
