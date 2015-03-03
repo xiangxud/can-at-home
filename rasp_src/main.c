@@ -30,8 +30,16 @@
 int main(int argc, char ** argv)
 {
 
-	Canmsg msg;
+	
 	Canmsg newmsg;
+	Canmsg msg;
+
+	msg.id = 0x0122;
+      	msg.rtr = 0;
+        	msg.length = 2;
+       	msg.data[0] = 0x45;
+       	msg.data[1] = 0x46;
+
 
 	printf("Raspberry Pi CAN-Demo Code\n\rFelix Schulze 2015\n\rmail@felixschulze.com\n\r\n\r");
 

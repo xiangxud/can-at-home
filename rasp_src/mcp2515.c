@@ -53,19 +53,47 @@ void mcp_init(void)
 	usleep(10);
 
 	// set can clock rate
-	char buf[] = {SPI_WRITE, RXM0SIDH ,0, 0, 0, 0 ,0, 0, 0, 0, CNF3, CNF2, CNF1, (1<<RX1IE)|(1<<RX0IE)};
+	mcp_write_reg(CNF1, R_CNF1);
+	mcp_write_reg(CNF2, R_CNF2);
+	mcp_write_reg(CNF3, R_CNF3);
 
- 	bcm2835_spi_transfern(buf, sizeof(buf));
+	mcp_write_reg(CANINTE, (1<<RX1IE)|(1<<RX0IE));
 
 	// clear msg masks
 	mcp_write_reg( RXB0CTRL, (1<<RXM1)|(1<<RXM0) );
 	mcp_write_reg( RXB1CTRL, (1<<RXM1)|(1<<RXM0) );
 
+	mcp_write_reg( RXM0SIDH, 0 );
+	mcp_write_reg( RXM0SIDL, 0 );
+	mcp_write_reg( RXM0EID8, 0 );
+	mcp_write_reg( RXM0EID0, 0 );
+
+	mcp_write_reg( RXM1SIDH, 0 );
+	mcp_write_reg( RXM1SIDL, 0 );
+	mcp_write_reg( RXM1EID8, 0 );
+	mcp_write_reg( RXM1EID0, 0 );
+
 	// enable normal mode
-   	//mcp_bit_mod( CANCTRL, 0xE0, 0);
+   	mcp_bit_mod( CANCTRL, 0xE0, 0);
 
 	// for debugging enable loopback mode
-	mcp_bit_mod(CANCTRL, 0xE0, 0x40);
+	//mcp_bit_mod(CANCTRL, 0xE0, 0x40);
+
+
+	printf("RXM0SIDH : %x\n\r",mcp_read_reg( RXM0SIDH));
+	printf("RXM0SIDL : %x\n\r",mcp_read_reg( RXM0SIDL));
+	printf("RXM0EID8 : %x\n\r",mcp_read_reg( RXM0EID8));
+	printf("RXM0EID0 : %x\n\r",mcp_read_reg( RXM0EID0));
+
+	printf("RXM1SIDH : %x\n\r",mcp_read_reg( RXM1SIDH));
+	printf("RXM1SIDH : %x\n\r",mcp_read_reg( RXM1SIDL));
+	printf("RXM1EID8 : %x\n\r",mcp_read_reg( RXM1EID8));
+	printf("RXM1eID0 : %x\n\r",mcp_read_reg( RXM1EID0));
+	printf("CNF3 : %x\n\r",mcp_read_reg(CNF3));
+	printf("CNF2 : %x\n\r",mcp_read_reg(CNF2));
+	printf("CNF1: %x\n\r",mcp_read_reg(CNF1));
+	printf("CANINTE: %x\n\r",mcp_read_reg(CANINTE));
+	
 	return;
 }
 
