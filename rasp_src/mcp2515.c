@@ -5,6 +5,7 @@
  *
  */
 
+
 #include <stdint.h>
 #include <string.h>
 #include <unistd.h>
@@ -52,23 +53,6 @@ void mcp_init(void)
 	usleep(10);
 
 	// set can clock rate
-
-	/*
-	mcp_write_reg( RXM0SIDH, 0 );
-	mcp_write_reg( RXM0SIDL, 0 );
-	mcp_write_reg( RXM0EID8, 0 );
-	mcp_write_reg( RXM0EID0, 0 );
-
-	mcp_write_reg( RXM1SIDH, 0 );
-	mcp_write_reg( RXM1SIDL, 0 );
-	mcp_write_reg( RXM1EID8, 0 );
-	mcp_write_reg( RXM1EID0, 0 );
-
-	mcp_write_reg(CNF3, R_CNF3);
-	mcp_write_reg(CNF2, R_CNF2);
-	mcp_write_reg(CNF1, R_CNF1);
-	mcp_write_reg(CANINTE, (1<<RX1IE)|(1<<RX0IE));
-	*/
 	char buf[] = {SPI_WRITE, RXM0SIDH ,0, 0, 0, 0 ,0, 0, 0, 0, CNF3, CNF2, CNF1, (1<<RX1IE)|(1<<RX0IE)};
 
  	bcm2835_spi_transfern(buf, sizeof(buf));
@@ -112,22 +96,20 @@ uint8_t can_send_msg(Canmsg *s_msg)
 
    	
 
-   	char buf[18] = {SPI_LOAD_TX_BUF | addr, SPI_WRITE, TXB0SIDH, (uint8_t) (s_msg->id>>3), SPI_WRITE, TXB0SIDL, (uint8_t) (s_msg->id<<5), 0, 0};
-   	uint8_t bufsize = 9+1+s_msg->length;
+   	char buf[18] = {SPI_LOAD_TX_BUF | addr,  (uint8_t) (s_msg->id>>3),  (uint8_t) (s_msg->id<<5), 0, 0};
+   	uint8_t bufsize = 5+1+s_msg->length;
 
    	// if request ?
    	if(s_msg->rtr)
-   		buf[9] = (1<<RTR) | s_msg->length;
+   		buf[5] = (1<<RTR) | s_msg->length;
    	else
    	{
-   		buf[9] = (s_msg->length);
+   		buf[5] = (s_msg->length);
 
    		for(uint8_t i = 0; i < s_msg->length; i++)
-   			buf[i+10] = (s_msg->data[i]);
+   			buf[i+6] = (s_msg->data[i]);
    	}
 
-	for(int i = 0; i <bufsize; i++)
-		printf(" %x", buf[i]);
 
    	bcm2835_spi_transfern(buf, bufsize);
 
