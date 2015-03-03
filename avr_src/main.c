@@ -60,10 +60,7 @@ int main(void)
 
 
 	while(1)
-	{
-
-		
-	
+	{	
 		if(can_get_msg(&newmsg) == 0)
 		{
 			uart_can_msg(&newmsg);

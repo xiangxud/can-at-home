@@ -113,21 +113,22 @@ uint8_t can_send_msg(Canmsg *s_msg)
    	
 
    	char buf[16] = {SPI_WRITE | addr, SPI_WRITE, TXB0SIDH, (uint8_t) (s_msg->id>>3), (uint8_t) (s_msg->id<<5), 0, 0};
-   	char bufmsg[9];
    	uint8_t bufsize = 7+1+s_msg->length;
 
    	// if request ?
    	if(s_msg->rtr)
-   		bufmsg[0] = (1<<RTR) | s_msg->length;
+   		buf[7] = (1<<RTR) | s_msg->length;
    	else
    	{
-   		bufmsg[0] = (s_msg->length);
+   		buf[7] = (s_msg->length);
 
    		for(uint8_t i = 0; i < s_msg->length; i++)
-   			bufmsg[i+1] = (s_msg->data[i]);
+   			buf[i+8] = (s_msg->data[i]);
    	}
 
-   	strcat(buf, bufmsg);
+	for(int i = 0; i <bufsize; i++)
+		printf(" %x", buf[i]);
+
    	bcm2835_spi_transfern(buf, bufsize);
 
 
