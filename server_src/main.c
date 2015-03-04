@@ -40,7 +40,7 @@ int16_t countDev()
 			count ++;
 	}
 	
-	return count/2;
+return count/2;
 }
 int16_t getDev(int count, xmlObj* xmlptr)
 {
@@ -97,65 +97,58 @@ int16_t getDev(int count, xmlObj* xmlptr)
 			e++;
 		}			
 	}	
-	return 0;
+return 0;
 }
 
 
 int main(int argc, char** argv)
 {
-		int ret;
-		xmlObj *state_ptr;
+	int ret;
+	xmlObj *state_ptr;
 
-		printf("Raspberry Pi CAN-at-Home Server\nFelix Schulze 2015\nmail@felixschulze.com\n\n");
+	printf("Raspberry Pi CAN-at-Home Server\nFelix Schulze 2015\nmail@felixschulze.com\n\n");
 
-		// check if program runs as root
-		if(getuid() != 0)
-		{
-			printf("Run program as root!\n");
-			return 1;
-		}
+	// check if program runs as root
+	if(getuid() != 0)
+	{
+		printf("Run program as root!\n");
+		return 1;
+	}
 
-		// Count devices for allocationg memory
-		ret = countDev();
+	// Count devices for allocationg memory
+	ret = countDev();
 
-		if(ret == -1)
-		{
-			printf("Could not open status.xml\n");
-			return 1;
-		}
+	if(ret == -1)
+	{
+		printf("Could not open status.xml\n");
+		return 1;
+	}
 
-		
-		printf("Found %i Devices in XML File\n", ret);
+	
+	printf("Found %i Devices in XML File\n", ret);
 
-		state_ptr = malloc(ret * (sizeof(xmlObj)));
+	state_ptr = malloc(ret * (sizeof(xmlObj)));
 
-		if(state_ptr == NULL)
-		{
-			printf("Not enough memory!\n");
-		}
+	if(state_ptr == NULL)
+	{
+		printf("Not enough memory!\n");
+		return 1;
+	}
 
-		getDev(ret, state_ptr);
+	getDev(ret, state_ptr);
 
-		for(int i = 0; i < ret; i++)
-		{
-			printf("\nDev No: %i\n",state_ptr[i].devnum );
-			printf("Location: %s\n",state_ptr[i].location);
-			printf("Name: %s\n",state_ptr[i].name);
-			printf("Addr: %i\n",state_ptr[i].addr );
-			printf("Type: %i\n",state_ptr[i].type);
-			printf("State: %i\n",state_ptr[i].state);
-		}
-
-
-
-		free(state_ptr);
-
-		uint32_t test = 0x55AABBAA;
-
-		printf("\n\n 0x%x  %i  ", (uint8_t)test, (uint8_t)test);
-		printf("\n\n 0x%x  %i  ", (uint16_t)test >> 8,  (uint16_t)test >> 8);
-		printf("\n\n 0x%x  %i  ", (uint8_t)((test >> 16) & 0x03 ) | (1<<4),  (uint8_t)((test >> 16) & 0x03) | (1<<4));
+	for(int i = 0; i < ret; i++)
+	{
+		printf("\nDev No: %i\n",state_ptr[i].devnum );
+		printf("Location: %s\n",state_ptr[i].location);
+		printf("Name: %s\n",state_ptr[i].name);
+		printf("Addr: %i\n",state_ptr[i].addr );
+		printf("Type: %i\n",state_ptr[i].type);
+		printf("State: %i\n",state_ptr[i].state);
+	}
 
 
+	free(state_ptr);
 
+return 0;
 }
