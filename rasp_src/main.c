@@ -3,7 +3,7 @@
  * Date:    28/02/2015
  *
  * Desc:   RaspberryPi Can-Demo Code
- * Ver.:      0.01
+ * Ver.:      0.02
  *
  */
 
