@@ -124,7 +124,7 @@ uint8_t can_send_msg(Canmsg *s_msg)
 
    	
 
-   	char buf[18] = {SPI_LOAD_TX_BUF | addr,  (uint8_t) (s_msg->id>>3),  (uint8_t) (s_msg->id<<5)  | (1<<EXIDE)  | (uint8_t) ((s_msg->id>>27) & 0x03) , (uint8_t) (s_msg->id>>19), (uint8_t) ((s_msg->id>>11)};
+   	char buf[18] = {SPI_LOAD_TX_BUF | addr,  (uint8_t) (s_msg->id>>3),  (uint8_t) (s_msg->id<<5), 0, 0};
    	uint8_t bufsize = 5+1+s_msg->length;
 
    	// if request ?

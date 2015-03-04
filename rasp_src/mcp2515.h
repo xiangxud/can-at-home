@@ -227,7 +227,7 @@
 #define TXB2CNTRL_TXREQ 6
 #define CANINTF_TX2IF 7
 
- #define EXIDE 4
+#define EXIDE 3
 
 
 
@@ -239,7 +239,7 @@
 
 typedef struct
 {
-    uint32_t  id;
+    uint16_t  id;
     uint8_t   rtr;
     uint8_t   length;
     uint8_t   data[8];
