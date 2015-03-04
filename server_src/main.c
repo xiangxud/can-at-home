@@ -17,12 +17,12 @@
 
 typedef struct
 {
-    uint8_t  devnum;
+    uint16_t  devnum;
     char location[25];
     char name[25];
     uint16_t   addr;
-    uint8_t   type;
-    uint8_t state;
+    uint16_t   type;
+    uint16_t state;
 } xmlObj;
 
 
@@ -61,6 +61,7 @@ int16_t getDev(int count, xmlObj* xmlptr)
 			wptr1 = memchr(wptr0, '"', 50) ;
 			*wptr1 = 0;
 			xmlptr[e].devnum = atoi(wptr0);
+
 			for(int i = 0; i<5; i++)
 			{
 				fgets(temp,100,f);
@@ -93,43 +94,6 @@ int16_t getDev(int count, xmlObj* xmlptr)
 				}
 				
 			}
-			
-/*
-			fgets(temp,100,f);
-			wptr0 = memchr(temp, '>', 50) + 1;
-			wptr1 = memchr(wptr0, '<', 50) ;
-			*wptr1 = 0;
-
-			strcpy (xmlptr[e].location, wptr0);
-
-			fgets(temp,100,f);
-			wptr0 = memchr(temp, '>', 50) + 1;
-			wptr1 = memchr(wptr0, '<', 50) ;
-			*wptr1 = 0;
-
-			strcpy (xmlptr[e].name, wptr0);
-
-			fgets(temp,100,f);
-			wptr0 = memchr(temp, '>', 50) + 1;
-			wptr1 = memchr(wptr0, '<', 50) ;
-			*wptr1 = 0;
-
-			xmlptr[e].addr = atoi(wptr0);
-			
-			fgets(temp,100,f);
-			wptr0 = memchr(temp, '>', 50) + 1;
-			wptr1 = memchr(wptr0, '<', 50) ;
-			*wptr1 = 0;
-
-			xmlptr[e].type = atoi(wptr0);
-			
-			fgets(temp,100,f);
-			wptr0 = memchr(temp, '>', 50) + 1;
-			wptr1 = memchr(wptr0, '<', 50) ;else if(strstr(temp,"addr") != NULL) 
-			*wptr1 = 0;
-
-			xmlptr[e].state = atoi(wptr0);*/
-
 			e++;
 		}			
 	}	
@@ -142,31 +106,32 @@ int main(int argc, char** argv)
 		int ret;
 		xmlObj *state_ptr;
 
-		printf("Raspberry Pi CAN-at-Home Server\n\rFelix Schulze 2015\n\rmail@felixschulze.com\n\r\n\r");
+		printf("Raspberry Pi CAN-at-Home Server\nFelix Schulze 2015\nmail@felixschulze.com\n\n");
 
 		// check if program runs as root
 		if(getuid() != 0)
 		{
-			printf("Run program as root!\n\r");
-			return 1;
-		}
-
-		ret = countDev();
-
-		if(ret == -1)
-		{
-			printf("Could not open status.xml\n\r");
+			printf("Run program as root!\n");
 			return 1;
 		}
 
 		// Count devices for allocationg memory
-		printf("Found: %i Devices\n\r", ret);
+		ret = countDev();
+
+		if(ret == -1)
+		{
+			printf("Could not open status.xml\n");
+			return 1;
+		}
+
+		
+		printf("Found %i Devices in XML File\n", ret);
 
 		state_ptr = malloc(ret * (sizeof(xmlObj)));
 
 		if(state_ptr == NULL)
 		{
-			printf("Not enough memory!\n\r");
+			printf("Not enough memory!\n");
 		}
 
 		getDev(ret, state_ptr);
@@ -184,6 +149,12 @@ int main(int argc, char** argv)
 
 
 		free(state_ptr);
+
+		uint32_t test = 0x55AABBAA;
+
+		printf("\n\n 0x%x  %i  ", (uint8_t)test, (uint8_t)test);
+		printf("\n\n 0x%x  %i  ", (uint16_t)test >> 8,  (uint16_t)test >> 8);
+		printf("\n\n 0x%x  %i  ", (uint8_t)((test >> 16) & 0x03 ) | (1<<4),  (uint8_t)((test >> 16) & 0x03) | (1<<4));
 
 
 

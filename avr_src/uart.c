@@ -11,7 +11,7 @@
 #include "mcp2515.h"
 
 
-static char buffer[4];
+static char buffer[9];
 
 void uart_init(unsigned int baudrate)
 {

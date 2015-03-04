@@ -122,10 +122,11 @@ uint8_t can_send_msg(Canmsg *s_msg)
 	
    
   	spi_trans((uint8_t) (s_msg->id>>3));
-   	spi_trans((uint8_t) (s_msg->id<<5));
+   	spi_trans((uint8_t) (s_msg->id<<5)  | (1<<EXIDE)  | (uint8_t) ((s_msg->id>>27) & 0x03));
+
    	// jump of register for ext id
-   	spi_trans(0);
-   	spi_trans(0);
+   	spi_trans((uint8_t) (s_msg->id>>19));
+   	spi_trans((uint8_t) (s_msg->id>>11));
 
    	// if request ?
    	if(s_msg->rtr)

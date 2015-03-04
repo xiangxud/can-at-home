@@ -227,6 +227,8 @@
 #define TXB2CNTRL_TXREQ 6
 #define CANINTF_TX2IF 7
 
+ #define EXIDE 4
+
 
 
 #if(BITRATE == 125)
@@ -237,7 +239,7 @@
 
 typedef struct
 {
-    uint16_t  id;
+    uint32_t  id;
     uint8_t   rtr;
     uint8_t   length;
     uint8_t   data[8];

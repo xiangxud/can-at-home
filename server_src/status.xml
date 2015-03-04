@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- Felix Schulze 2015 -->
 <!-- Example File-->
+<!-- 	Type 0: Digital Out
+	Type 1: Digital In
+	Type 2: Analog Out
+	Type 3: Light dim
+	Type 4: 
+-->
 
 <CANstatus>
-	<Device No="5">
-		<name>Temp0</name>
-		<location>Wohnzimmer</location>
+	<Device No="0">
+		<location>LivingRoom</location>
+		<name>PowerPoint0</name>
 		<addr>10</addr>
-		<type>2</type>
+		<type>0</type>
 		<state>1</state>
 	</Device>
 	<Device No="1">
-		<location>Kueche</location>
-		<name>Temp4</name>
-		<addr>12</addr>
-		<type>2</type>
-		<state>0</state>
+		<location>LivingRoom</location>
+		<name>PowerPoint1</name>
+		<addr>11</addr>
+		<type>0</type>
+		<state>1</state>
 	</Device>
 	<Device No="2">
-		<location>Kueche</location>
-		<name>Licht</name>
-		<addr>14</addr>
-		<type>5</type>
-		<state>23</state>
+		<location>Kitchen</location>
+		<name>Ligth0</name>
+		<addr>500</addr>
+		<type>0</type>
+		<state>0</state>
 	</Device>
-
+	<Device No="3">
+		<location>Kitchen</location>
+		<name>Switch0</name>
+		<addr>501</addr>
+		<type>1</type>
+		<state>0</state>
+	</Device>
 </CANstatus>
