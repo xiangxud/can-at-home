@@ -124,7 +124,7 @@ uint8_t can_send_msg(Canmsg *s_msg)
 
    	
 
-   	char buf[18] = {SPI_LOAD_TX_BUF | addr,  (uint8_t) (s_msg->id>>3),  (uint8_t) (s_msg->id<<5), 0, 0};
+   	char buf[18] = {SPI_LOAD_TX_BUF | addr, (uint8_t) (s_msg->id>>3), (uint8_t) (s_msg->id<<5), 0, 0};
    	uint8_t bufsize = 5+1+s_msg->length;
 
    	// if request ?
@@ -142,7 +142,7 @@ uint8_t can_send_msg(Canmsg *s_msg)
    	bcm2835_spi_transfern(buf, bufsize);
 
    	// Debug Read back for first TXS block
-   	/*printf(":: DEBUG -- Send msg\n\r");
+   	printf(":: DEBUG -- Send msg\n\r");
 	printf("TXB0SIDH : %x\n\r",mcp_read_reg(TXB0SIDH));
 	printf("TXB0SIDL : %x\n\r",mcp_read_reg(TXB0SIDL));
 	printf("TXB0EID8 : %x\n\r",mcp_read_reg(TXB0EID8));
@@ -155,7 +155,7 @@ uint8_t can_send_msg(Canmsg *s_msg)
 	printf("TXB0D4 : %x\n\r",mcp_read_reg(TXB0D4));
 	printf("TXB0D5 : %x\n\r",mcp_read_reg(TXB0D5));
 	printf("TXB0D6 : %x\n\r",mcp_read_reg(TXB0D6));
-	printf("TXB0D7 : %x\n\r",mcp_read_reg(TXB0D7));*/
+	printf("TXB0D7 : %x\n\r",mcp_read_reg(TXB0D7));
 	
 
 
