@@ -5,12 +5,12 @@
  *
  */
 
-
+#include <stdio.h>
 #include <stdint.h>
 #include <string.h>
 #include <unistd.h>
 #include "bcm2835.h"
- #include "mcp2515.h"
+#include "mcp2515.h"
 
 void mcp_write_reg(uint8_t addr, uint8_t data)
 {
@@ -80,7 +80,7 @@ void mcp_init(void)
 	//mcp_bit_mod(CANCTRL, 0xE0, 0x40);
 
    	// Debug Read back
-   	printf(":: DEBUG -- Init");
+   	/*printf(":: DEBUG -- Init\n\r");
 	printf("RXM0SIDH : %x\n\r",mcp_read_reg( RXM0SIDH));
 	printf("RXM0SIDL : %x\n\r",mcp_read_reg( RXM0SIDL));
 	printf("RXM0EID8 : %x\n\r",mcp_read_reg( RXM0EID8));
@@ -92,7 +92,7 @@ void mcp_init(void)
 	printf("CNF3 : %x\n\r",mcp_read_reg(CNF3));
 	printf("CNF2 : %x\n\r",mcp_read_reg(CNF2));
 	printf("CNF1: %x\n\r",mcp_read_reg(CNF1));
-	printf("CANINTE: %x\n\r",mcp_read_reg(CANINTE));
+	printf("CANINTE: %x\n\r",mcp_read_reg(CANINTE));*/
 	
 	return;
 }
@@ -142,7 +142,7 @@ uint8_t can_send_msg(Canmsg *s_msg)
    	bcm2835_spi_transfern(buf, bufsize);
 
    	// Debug Read back for first TXS block
-   	printf(":: DEBUG -- Send msg");
+   	/*printf(":: DEBUG -- Send msg\n\r");
 	printf("TXB0SIDH : %x\n\r",mcp_read_reg(TXB0SIDH));
 	printf("TXB0SIDL : %x\n\r",mcp_read_reg(TXB0SIDL));
 	printf("TXB0EID8 : %x\n\r",mcp_read_reg(TXB0EID8));
@@ -155,7 +155,7 @@ uint8_t can_send_msg(Canmsg *s_msg)
 	printf("TXB0D4 : %x\n\r",mcp_read_reg(TXB0D4));
 	printf("TXB0D5 : %x\n\r",mcp_read_reg(TXB0D5));
 	printf("TXB0D6 : %x\n\r",mcp_read_reg(TXB0D6));
-	printf("TXB0D7 : %x\n\r",mcp_read_reg(TXB0D7));
+	printf("TXB0D7 : %x\n\r",mcp_read_reg(TXB0D7));*/
 	
 
 
