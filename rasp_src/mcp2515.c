@@ -79,16 +79,16 @@ void mcp_init(void)
 	// for debugging enable loopback mode
 	//mcp_bit_mod(CANCTRL, 0xE0, 0x40);
 
-
+   	// Debug Read back
+   	printf(":: DEBUG -- Init");
 	printf("RXM0SIDH : %x\n\r",mcp_read_reg( RXM0SIDH));
 	printf("RXM0SIDL : %x\n\r",mcp_read_reg( RXM0SIDL));
 	printf("RXM0EID8 : %x\n\r",mcp_read_reg( RXM0EID8));
 	printf("RXM0EID0 : %x\n\r",mcp_read_reg( RXM0EID0));
-
 	printf("RXM1SIDH : %x\n\r",mcp_read_reg( RXM1SIDH));
 	printf("RXM1SIDH : %x\n\r",mcp_read_reg( RXM1SIDL));
 	printf("RXM1EID8 : %x\n\r",mcp_read_reg( RXM1EID8));
-	printf("RXM1eID0 : %x\n\r",mcp_read_reg( RXM1EID0));
+	printf("RXM1EID0 : %x\n\r",mcp_read_reg( RXM1EID0));
 	printf("CNF3 : %x\n\r",mcp_read_reg(CNF3));
 	printf("CNF2 : %x\n\r",mcp_read_reg(CNF2));
 	printf("CNF1: %x\n\r",mcp_read_reg(CNF1));
@@ -140,6 +140,24 @@ uint8_t can_send_msg(Canmsg *s_msg)
 
 
    	bcm2835_spi_transfern(buf, bufsize);
+
+   	// Debug Read back for first TXS block
+   	printf(":: DEBUG -- Send msg");
+	printf("TXB0SIDH : %x\n\r",mcp_read_reg(TXB0SIDH));
+	printf("TXB0SIDL : %x\n\r",mcp_read_reg(TXB0SIDL));
+	printf("TXB0EID8 : %x\n\r",mcp_read_reg(TXB0EID8));
+	printf("TXB0EID0 : %x\n\r",mcp_read_reg(TXB0EID0));
+	printf("TXB0DLC : %x\n\r",mcp_read_reg(TXB0DLC));
+	printf("TXB0D0 : %x\n\r",mcp_read_reg(TXB0D0));
+	printf("TXB0D1 : %x\n\r",mcp_read_reg(TXB0D1));
+	printf("TXB0D2 : %x\n\r",mcp_read_reg(TXB0D2));
+	printf("TXB0D3 : %x\n\r",mcp_read_reg(TXB0D3));
+	printf("TXB0D4 : %x\n\r",mcp_read_reg(TXB0D4));
+	printf("TXB0D5 : %x\n\r",mcp_read_reg(TXB0D5));
+	printf("TXB0D6 : %x\n\r",mcp_read_reg(TXB0D6));
+	printf("TXB0D7 : %x\n\r",mcp_read_reg(TXB0D7));
+	
+
 
 
    	if(addr == 0)
