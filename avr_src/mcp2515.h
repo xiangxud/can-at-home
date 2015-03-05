@@ -237,7 +237,7 @@
 
 typedef struct
 {
-    uint16_t  id;
+    uint32_t  id;
     uint8_t   rtr;
     uint8_t   length;
     uint8_t   data[8];
