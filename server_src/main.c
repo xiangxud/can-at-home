@@ -42,6 +42,7 @@ int16_t countDev()
 	
 return count/2;
 }
+
 int16_t getDev(int count, xmlObj* xmlptr)
 {
 	FILE* f = fopen(STATUS_FILE, "r");
@@ -62,7 +63,7 @@ int16_t getDev(int count, xmlObj* xmlptr)
 			*wptr1 = 0;
 			xmlptr[e].devnum = atoi(wptr0);
 
-			for(int i = 0; i<5; i++)
+			for(int i = 0; i<20; i++)
 			{
 				fgets(temp,100,f);
 				wptr0 = memchr(temp, '>', 50) + 1;
@@ -92,7 +93,10 @@ int16_t getDev(int count, xmlObj* xmlptr)
 					*wptr1 = 0;
 					xmlptr[e].state = atoi(wptr0);
 				}
-				
+				else if (strstr(temp,"Device") != NULL) 
+				{
+					break;
+				}
 			}
 			e++;
 		}			

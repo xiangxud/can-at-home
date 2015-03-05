@@ -7,7 +7,7 @@
 #
 #
 
-TARGET = cahserver
+TARGET = canserver
 
 all: main.o 
 	gcc -o $(TARGET) main.o
