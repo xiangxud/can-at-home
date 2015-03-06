@@ -49,7 +49,7 @@ int main(void)
 	
 	uart_puts("AVR-CAN-Demo Code\n\rFelix Schulze 2015\n\rmail@felixschulze.com\n\r\n\r");
 	mcp_init();
-	uart_puts(":: Init mcp2515\n\r");
+	
 
 
 	PORT_LED0 |= (1<<LED0);

@@ -48,7 +48,7 @@ void uart_puts(const char *s )
 void uart_can_msg(Canmsg *s_msg)
 {
     uart_puts("\n\rID: 0x");
-    itoa(s_msg->id,buffer, 16);
+    ultoa(s_msg->id,buffer, 16);
     uart_puts(buffer);
     uart_puts("\n\rLength: 0x");
     itoa(s_msg->length,buffer, 16);

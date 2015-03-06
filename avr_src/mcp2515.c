@@ -84,19 +84,30 @@ void mcp_init(void)
 	mcp_write_reg( RXM1EID8, 0 );
 	mcp_write_reg( RXM1EID0, 0 );
 
-	// enable normal mode
-   	mcp_bit_mod( CANCTRL, 0xE0, 0);
 
-	// for debugging enable loopback mode
-	//mcp_bit_mod(CANCTRL, 0xE0, 0x40);
+	uart_puts(":: Init mcp2515\n\r");
+
+	// enable normal mode
+	#ifdef NORMAL_MODE
+   		mcp_bit_mod( CANCTRL, 0xE0, 0);
+   		uart_puts(":: mcp2515 normal mode\n\r");
+   	#endif
+
+   	// for debugging enable loopback mode
+	#ifdef LOOPBACK_MODE
+   		mcp_bit_mod(CANCTRL, 0xE0, 0x40);
+   		uart_puts(":: mcp2515 loopback mode\n\r");
+   	#endif
+
+
+	
+	//
 	return;
 }
 
 
 uint8_t can_send_msg(Canmsg *s_msg)
 {
-	int i;
-	char buffer[10];
 	uint8_t addr;
 
 	if(s_msg->length > 8)
@@ -123,17 +134,21 @@ uint8_t can_send_msg(Canmsg *s_msg)
 	spi_trans(SPI_LOAD_TX_BUF  | addr);
 	
    
-  	/*spi_trans((uint8_t) (s_msg->id>>3));
-   	spi_trans((uint8_t) (s_msg->id<<5)  | (1<<EXIDE) | (uint8_t) ((s_msg->id>>27) & 0x03));
+  	/*
+  	 *uncomment for standard can frames
+  	 *
+  	 *spi_trans((uint8_t) (s_msg->id>>3));
+   	 *spi_trans((uint8_t) (s_msg->id<<5));
 
-   	// jump of register for ext id
- 	spi_trans((uint8_t) (s_msg->id>>19));
- 	spi_trans((uint8_t) (s_msg->id>>11));*/
+   	* jump of register for ext id
+   	*
+ 	*spi_trans((uint8_t) 0);
+ 	*spi_trans((uint8_t) 0);
+ 	*/
 
+ 	// set extended can id
  	spi_trans((uint8_t) (s_msg->id>>21));
    	spi_trans((uint8_t) ((s_msg->id>>13) & 0xE0)  | (1<<EXIDE) | (uint8_t) ((s_msg->id>>16) & 0x03));
-
-   	// jump of register for ext id
  	spi_trans((uint8_t) (s_msg->id>>8));
  	spi_trans((uint8_t) s_msg->id);
 
@@ -152,25 +167,6 @@ uint8_t can_send_msg(Canmsg *s_msg)
 
    	// do nothing one cycle for toggle cs
    	asm volatile ("nop");
-
-	i = mcp_read_reg(  TXB0SIDH);
-	itoa(i, buffer,2);
-	uart_puts(buffer);
-	uart_puts("\n");
-	i = mcp_read_reg( TXB0SIDL);
-	itoa(i, buffer,2);
-	uart_puts(buffer);
-	uart_puts("\n");
-	i =mcp_read_reg( TXB0EID8);
-	itoa(i, buffer,2);
-	uart_puts(buffer);
-	uart_puts("\n");
-	i = mcp_read_reg( TXB0EID0);
-	itoa(i, buffer,2);
-	uart_puts(buffer);
-	uart_puts("\n");
-
-
 
    	PORT_CS &= ~(1<<P_CS);
 
@@ -197,7 +193,10 @@ uint8_t mcp_read_rx_stat(void)
 
 uint8_t can_get_msg(Canmsg *s_msg)
 {
+
+	// ceck for new messages
 	uint8_t status = mcp_read_rx_stat();
+	int address[4];
 
 	// message in buffer0
 	if(status & (1<<6)) 
@@ -217,20 +216,20 @@ uint8_t can_get_msg(Canmsg *s_msg)
 		return 1;
 	}
 
-	// read std id
-	s_msg -> id = (uint16_t) spi_trans(0xff) << 3;
-	s_msg -> id |= (uint16_t) spi_trans(0xff) >> 5;
+	// Get the next 4 register for can id
+	for(uint8_t i = 0; i<4; i++)
+		address[i] = spi_trans(0xff);
 
-	// jump over register for ext id
-	spi_trans(0xff);
-	spi_trans(0xff);
-
+	// readout message length
 	s_msg->length = spi_trans(0xff) & 0x0f;
 
 	for(uint8_t i =0 ; i < s_msg->length; i++)
 		s_msg->data[i] = spi_trans(0xff);
 
 	PORT_CS |= (1<<P_CS);
+
+	// assemble can address
+	s_msg -> id = ((uint32_t) address[0] << 21) | ((uint32_t) (address[1] & 0xE0) << 13) | ((uint32_t) (address[1]  & 0x03) << 16) | ((uint32_t) address[2] << 8) | address[3];
 
 	// rtr msg ?
 	if(status & (1<<3))
