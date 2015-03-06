@@ -28,6 +28,7 @@
 int main(void)
 {
 
+	char buffer[10];
 	Canmsg msg;
 	Canmsg newmsg;
 
@@ -35,7 +36,7 @@ int main(void)
 	DDR_LED0 |= (1<<LED0);
 	DDR_LED1 |= (1<<LED1);
 
-	msg.id = 0x0123;
+	msg.id = 0x1AAF123A;
 	msg.rtr = 0;
 	msg.length = 4;
 	msg.data[0] = 0x01;
@@ -58,7 +59,6 @@ int main(void)
 	can_send_msg(&msg);
 	
 	uart_puts(":: send test message\n\r");
-
 
 
 	while(1)

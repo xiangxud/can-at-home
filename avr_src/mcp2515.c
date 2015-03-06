@@ -7,6 +7,7 @@
 
 #include <util/delay.h>
 #include "spi.h"
+#include "uart.h"
 #include "mcp2515.h"
 
 void mcp_write_reg(uint8_t addr, uint8_t data)
@@ -94,7 +95,8 @@ void mcp_init(void)
 
 uint8_t can_send_msg(Canmsg *s_msg)
 {
-
+	int i;
+	char buffer[10];
 	uint8_t addr;
 
 	if(s_msg->length > 8)
@@ -121,12 +123,19 @@ uint8_t can_send_msg(Canmsg *s_msg)
 	spi_trans(SPI_LOAD_TX_BUF  | addr);
 	
    
-  	spi_trans((uint8_t) (s_msg->id>>3));
+  	/*spi_trans((uint8_t) (s_msg->id>>3));
    	spi_trans((uint8_t) (s_msg->id<<5)  | (1<<EXIDE) | (uint8_t) ((s_msg->id>>27) & 0x03));
 
    	// jump of register for ext id
  	spi_trans((uint8_t) (s_msg->id>>19));
- 	spi_trans((uint8_t) (s_msg->id>>11));
+ 	spi_trans((uint8_t) (s_msg->id>>11));*/
+
+ 	spi_trans((uint8_t) (s_msg->id>>21));
+   	spi_trans((uint8_t) ((s_msg->id>>13) & 0xE0)  | (1<<EXIDE) | (uint8_t) ((s_msg->id>>16) & 0x03));
+
+   	// jump of register for ext id
+ 	spi_trans((uint8_t) (s_msg->id>>8));
+ 	spi_trans((uint8_t) s_msg->id);
 
    	// if request ?
    	if(s_msg->rtr)
@@ -143,6 +152,25 @@ uint8_t can_send_msg(Canmsg *s_msg)
 
    	// do nothing one cycle for toggle cs
    	asm volatile ("nop");
+
+	i = mcp_read_reg(  TXB0SIDH);
+	itoa(i, buffer,2);
+	uart_puts(buffer);
+	uart_puts("\n");
+	i = mcp_read_reg( TXB0SIDL);
+	itoa(i, buffer,2);
+	uart_puts(buffer);
+	uart_puts("\n");
+	i =mcp_read_reg( TXB0EID8);
+	itoa(i, buffer,2);
+	uart_puts(buffer);
+	uart_puts("\n");
+	i = mcp_read_reg( TXB0EID0);
+	itoa(i, buffer,2);
+	uart_puts(buffer);
+	uart_puts("\n");
+
+
 
    	PORT_CS &= ~(1<<P_CS);
 
