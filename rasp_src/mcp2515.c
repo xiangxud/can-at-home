@@ -73,26 +73,36 @@ void mcp_init(void)
 	mcp_write_reg( RXM1EID8, 0 );
 	mcp_write_reg( RXM1EID0, 0 );
 
-	// enable normal mode
-   	mcp_bit_mod( CANCTRL, 0xE0, 0);
+	printf(":: Init mcp2515\n");
 
-	// for debugging enable loopback mode
-	//mcp_bit_mod(CANCTRL, 0xE0, 0x40);
+		// enable normal mode
+	#ifdef NORMAL_MODE
+   		mcp_bit_mod( CANCTRL, 0xE0, 0);
+   		printf(":: mcp2515 normal mode\n");
+   	#endif
 
-   	// Debug Read back
-   	/*printf(":: DEBUG -- Init\n\r");
-	printf("RXM0SIDH : %x\n\r",mcp_read_reg( RXM0SIDH));
-	printf("RXM0SIDL : %x\n\r",mcp_read_reg( RXM0SIDL));
-	printf("RXM0EID8 : %x\n\r",mcp_read_reg( RXM0EID8));
-	printf("RXM0EID0 : %x\n\r",mcp_read_reg( RXM0EID0));
-	printf("RXM1SIDH : %x\n\r",mcp_read_reg( RXM1SIDH));
-	printf("RXM1SIDH : %x\n\r",mcp_read_reg( RXM1SIDL));
-	printf("RXM1EID8 : %x\n\r",mcp_read_reg( RXM1EID8));
-	printf("RXM1EID0 : %x\n\r",mcp_read_reg( RXM1EID0));
-	printf("CNF3 : %x\n\r",mcp_read_reg(CNF3));
-	printf("CNF2 : %x\n\r",mcp_read_reg(CNF2));
-	printf("CNF1: %x\n\r",mcp_read_reg(CNF1));
-	printf("CANINTE: %x\n\r",mcp_read_reg(CANINTE));*/
+   	// for debugging enable loopback mode
+	#ifdef LOOPBACK_MODE
+   		mcp_bit_mod(CANCTRL, 0xE0, 0x40);
+   		printf(":: mcp2515 loopback mode\n");
+   	#endif
+
+
+   	#ifdef DEBUG
+	   	printf(":: DEBUG -- Init\n\r");
+		printf("RXM0SIDH : %x\n\r",mcp_read_reg( RXM0SIDH));
+		printf("RXM0SIDL : %x\n\r",mcp_read_reg( RXM0SIDL));
+		printf("RXM0EID8 : %x\n\r",mcp_read_reg( RXM0EID8));
+		printf("RXM0EID0 : %x\n\r",mcp_read_reg( RXM0EID0));
+		printf("RXM1SIDH : %x\n\r",mcp_read_reg( RXM1SIDH));
+		printf("RXM1SIDH : %x\n\r",mcp_read_reg( RXM1SIDL));
+		printf("RXM1EID8 : %x\n\r",mcp_read_reg( RXM1EID8));
+		printf("RXM1EID0 : %x\n\r",mcp_read_reg( RXM1EID0));
+		printf("CNF3 : %x\n\r",mcp_read_reg(CNF3));
+		printf("CNF2 : %x\n\r",mcp_read_reg(CNF2));
+		printf("CNF1: %x\n\r",mcp_read_reg(CNF1));
+		printf("CANINTE: %x\n\r",mcp_read_reg(CANINTE));
+	#endif
 	
 	return;
 }
@@ -123,9 +133,9 @@ uint8_t can_send_msg(Canmsg *s_msg)
    		return 1;
 
    	
-
-   	char buf[18] = {SPI_LOAD_TX_BUF | addr, (uint8_t) (s_msg->id>>3), (uint8_t) (s_msg->id<<5), 0, 0};
+   	char buf[18] = {SPI_LOAD_TX_BUF | addr, (uint8_t) (s_msg->id>>21), (uint8_t) ((s_msg->id>>13) & 0xE0)  | (1<<EXIDE) | (uint8_t) ((s_msg->id>>16) & 0x03), (uint8_t) (s_msg->id>>8), (uint8_t) s_msg->id};
    	uint8_t bufsize = 5+1+s_msg->length;
+
 
    	// if request ?
    	if(s_msg->rtr)
@@ -142,20 +152,22 @@ uint8_t can_send_msg(Canmsg *s_msg)
    	bcm2835_spi_transfern(buf, bufsize);
 
    	// Debug Read back for first TXS block
-   	printf(":: DEBUG -- Send msg\n\r");
-	printf("TXB0SIDH : %x\n\r",mcp_read_reg(TXB0SIDH));
-	printf("TXB0SIDL : %x\n\r",mcp_read_reg(TXB0SIDL));
-	printf("TXB0EID8 : %x\n\r",mcp_read_reg(TXB0EID8));
-	printf("TXB0EID0 : %x\n\r",mcp_read_reg(TXB0EID0));
-	printf("TXB0DLC : %x\n\r",mcp_read_reg(TXB0DLC));
-	printf("TXB0D0 : %x\n\r",mcp_read_reg(TXB0D0));
-	printf("TXB0D1 : %x\n\r",mcp_read_reg(TXB0D1));
-	printf("TXB0D2 : %x\n\r",mcp_read_reg(TXB0D2));
-	printf("TXB0D3 : %x\n\r",mcp_read_reg(TXB0D3));
-	printf("TXB0D4 : %x\n\r",mcp_read_reg(TXB0D4));
-	printf("TXB0D5 : %x\n\r",mcp_read_reg(TXB0D5));
-	printf("TXB0D6 : %x\n\r",mcp_read_reg(TXB0D6));
-	printf("TXB0D7 : %x\n\r",mcp_read_reg(TXB0D7));
+   	#ifdef DEBUG
+	   	printf(":: DEBUG -- Send msg\n");
+		printf("TXB0SIDH : %x\n",mcp_read_reg(TXB0SIDH));
+		printf("TXB0SIDL : %x\n",mcp_read_reg(TXB0SIDL));
+		printf("TXB0EID8 : %x\n",mcp_read_reg(TXB0EID8));
+		printf("TXB0EID0 : %x\n",mcp_read_reg(TXB0EID0));
+		printf("TXB0DLC : %x\n",mcp_read_reg(TXB0DLC));
+		printf("TXB0D0 : %x\n",mcp_read_reg(TXB0D0));
+		printf("TXB0D1 : %x\n",mcp_read_reg(TXB0D1));
+		printf("TXB0D2 : %x\n",mcp_read_reg(TXB0D2));
+		printf("TXB0D3 : %x\n",mcp_read_reg(TXB0D3));
+		printf("TXB0D4 : %x\n",mcp_read_reg(TXB0D4));
+		printf("TXB0D5 : %x\n",mcp_read_reg(TXB0D5));
+		printf("TXB0D6 : %x\n",mcp_read_reg(TXB0D6));
+		printf("TXB0D7 : %x\n",mcp_read_reg(TXB0D7));
+	#endif
 	
 
 
@@ -203,6 +215,11 @@ uint8_t can_get_msg(Canmsg *s_msg)
 	// read std id
 	s_msg -> id = (uint16_t) buf[1] << 3;
 	s_msg -> id |= (uint16_t) buf[2] >> 5;
+
+	// assemble can address
+	s_msg -> id = ((uint32_t) buf[1] << 21) | ((uint32_t) (buf[2] & 0xE0) << 13) | ((uint32_t) (buf[2]  & 0x03) << 16) | ((uint32_t) buf[3] << 8) | buf[4];
+
+
 	s_msg->length = buf[5] & 0x0f;
 
 	for(uint8_t i =0 ; i < s_msg->length; i++)

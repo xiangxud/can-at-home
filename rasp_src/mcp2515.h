@@ -12,6 +12,13 @@
 
 #include <stdint.h>
 
+//Define mode
+//#define LOOPBACK_MODE
+#define NORMAL_MODE
+
+//Enable Debugging
+#define DEBUG
+
 //Define bitrate in kbps
 #define BITRATE 125
 //#define BITRATE 250

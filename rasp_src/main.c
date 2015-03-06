@@ -57,7 +57,7 @@ int main(int argc, char ** argv)
 		return 1;
 	
 	mcp_init();
-	printf(":: Init mcp2515\n\r");
+	
 
 	can_send_msg(&msg);
 	printf(":: send test message\n\r");
