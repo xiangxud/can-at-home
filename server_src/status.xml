@@ -12,7 +12,7 @@
 	<Device No="0">
 		<location>LivingRoom</location>
 		<name>PowerPoint0</name>
-		<addr>10</addr>
+		<addr>1231234</addr>
 		<type>0</type>
 		<state>1</state>
 	</Device>
