@@ -10,8 +10,8 @@
 TARGET = canserver
 BUILDDIR = build
 
-all: helper main.o candev.o loghelper.o
-	gcc -o $(TARGET) $(BUILDDIR)/main.o $(BUILDDIR)/candev.o $(BUILDDIR)/loghelper.o
+all: helper main.o candev.o loghelper.o bcm2835.o mcp2515.o
+	gcc -o $(TARGET) $(BUILDDIR)/main.o $(BUILDDIR)/candev.o $(BUILDDIR)/loghelper.o -o $(BUILDDIR)/mcp2515.o -o $(BUILDDIR)/bcm2835
 
 helper:
 	mkdir -p $(BUILDDIR)
@@ -24,6 +24,13 @@ candev.o: candev.c
 
 loghelper.o: loghelper.c
 	gcc -c -std=gnu99 loghelper.c -Wall -o $(BUILDDIR)/loghelper.o
+
+bcm2835.o: bcm2835.c
+	gcc -c -std=gnu99 bcm2835.c -Wno-pointer-to-int-cast -o $(BUILDDIR)/bcm2835.o
+
+mcp2515.o: mcp2515.c
+	gcc -c -std=gnu99 mcp2515.c -Wall-o $(BUILDDIR)/mcp2515.o
+
 
 
 
