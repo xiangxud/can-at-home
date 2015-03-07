@@ -1,29 +1,29 @@
-[ 07.03.2015 14:21:01 ]      Found 4 Devices in XML File
-[ 07.03.2015 14:21:01 ]      Found the following Device:
-[ 07.03.2015 14:21:01 ]      	Dev No: 0
-[ 07.03.2015 14:21:01 ]      	Location: LivingRoom
-[ 07.03.2015 14:21:01 ]      	Name: PowerPoint0
-[ 07.03.2015 14:21:01 ]      	Addr: 1231234
-[ 07.03.2015 14:21:01 ]      	Type: 0
-[ 07.03.2015 14:21:01 ]      	State: 1
-[ 07.03.2015 14:21:01 ]      Found the following Device:
-[ 07.03.2015 14:21:01 ]      	Dev No: 1
-[ 07.03.2015 14:21:01 ]      	Location: LivingRoom
-[ 07.03.2015 14:21:01 ]      	Name: PowerPoint1
-[ 07.03.2015 14:21:01 ]      	Addr: 11
-[ 07.03.2015 14:21:01 ]      	Type: 0
-[ 07.03.2015 14:21:01 ]      	State: 1
-[ 07.03.2015 14:21:01 ]      Found the following Device:
-[ 07.03.2015 14:21:01 ]      	Dev No: 2
-[ 07.03.2015 14:21:01 ]      	Location: Kitchen
-[ 07.03.2015 14:21:01 ]      	Name: Ligth0
-[ 07.03.2015 14:21:01 ]      	Addr: 500
-[ 07.03.2015 14:21:01 ]      	Type: 0
-[ 07.03.2015 14:21:01 ]      	State: 0
-[ 07.03.2015 14:21:01 ]      Found the following Device:
-[ 07.03.2015 14:21:01 ]      	Dev No: 3
-[ 07.03.2015 14:21:01 ]      	Location: Kitchen
-[ 07.03.2015 14:21:01 ]      	Name: Switch0
-[ 07.03.2015 14:21:01 ]      	Addr: 501
-[ 07.03.2015 14:21:01 ]      	Type: 1
-[ 07.03.2015 14:21:01 ]      	State: 0
+[ 07.03.2015 16:46:13 ]      Found 4 Devices in XML File
+[ 07.03.2015 16:46:13 ]      Found the following Device:
+[ 07.03.2015 16:46:13 ]      	Dev No: 0
+[ 07.03.2015 16:46:13 ]      	Location: LivingRoom
+[ 07.03.2015 16:46:13 ]      	Name: PowerPoint0
+[ 07.03.2015 16:46:13 ]      	Addr: 123123
+[ 07.03.2015 16:46:13 ]      	Type: 0
+[ 07.03.2015 16:46:13 ]      	State: 6
+[ 07.03.2015 16:46:13 ]      Found the following Device:
+[ 07.03.2015 16:46:13 ]      	Dev No: 1
+[ 07.03.2015 16:46:13 ]      	Location: LivingRoom
+[ 07.03.2015 16:46:13 ]      	Name: PowerPoint1
+[ 07.03.2015 16:46:13 ]      	Addr: 11
+[ 07.03.2015 16:46:13 ]      	Type: 0
+[ 07.03.2015 16:46:13 ]      	State: 1
+[ 07.03.2015 16:46:13 ]      Found the following Device:
+[ 07.03.2015 16:46:13 ]      	Dev No: 2
+[ 07.03.2015 16:46:13 ]      	Location: Kitchen
+[ 07.03.2015 16:46:13 ]      	Name: Ligth0
+[ 07.03.2015 16:46:13 ]      	Addr: 500
+[ 07.03.2015 16:46:13 ]      	Type: 0
+[ 07.03.2015 16:46:13 ]      	State: 0
+[ 07.03.2015 16:46:13 ]      Found the following Device:
+[ 07.03.2015 16:46:13 ]      	Dev No: 3
+[ 07.03.2015 16:46:13 ]      	Location: Kitchen
+[ 07.03.2015 16:46:13 ]      	Name: Switch0
+[ 07.03.2015 16:46:13 ]      	Addr: 501
+[ 07.03.2015 16:46:13 ]      	Type: 1
+[ 07.03.2015 16:46:13 ]      	State: 0

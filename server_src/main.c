@@ -93,13 +93,24 @@ int main(int argc, char** argv)
 		new_log_entry(log);
 		sprintf(log, "	State: %i\n",state_ptr[i].state);
 		new_log_entry(log);
-
 	}
 
+	// init spi interface
+	/*if (!bcm2835_init())
+		return 1;
+	new_log_entry("BCM2835 SPI interface successfully initialized\n");
+	
+	// init can controller
+	mcp_init();
+	new_log_entry("MCP2515 CAN controller successfully initialized\n");
+	*/
 
-	// close files and clear memory
+	changeDevData(123123,6);
+
+	// close files, clear memory and stop spi access
 	free(state_ptr);
 	void close_log();
+	//bcm2835_spi_end();
 
 return 0;
 }

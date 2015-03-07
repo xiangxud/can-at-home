@@ -35,4 +35,7 @@ int16_t countDev();
 // readout all devices in xml file
 int16_t getDev(int count, xmlObj* xmlptr);
 
+// change state in xml file
+int16_t changeDevData(uint32_t addr, uint16_t data);
+
  #endif
