@@ -25,9 +25,11 @@ FILE *lgf;
 
 uint8_t begin_new_log()
 {
-	lgf = fopen(LOG_FILE, "w+");
+	lgf = fopen(LOG_FILE, "a");
 	if(lgf == NULL)
 		return -1;
+
+	fprintf(lgf, "######################### New Log #########################\n");
 
 	return 0;
 }

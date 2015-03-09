@@ -105,7 +105,7 @@ int main(int argc, char** argv)
 	new_log_entry("MCP2515 CAN controller successfully initialized\n");
 	*/
 
-	changeDevData(123123,6);
+	//changeDevData(123123,6);
 
 	// close files, clear memory and stop spi access
 	free(state_ptr);

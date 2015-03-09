@@ -37,3 +37,4 @@ mcp2515.o: mcp2515.c
 clean:
 	rm -f $(TARGET)
 	rm -rf $(BUILDDIR)/
+	rm -f log.txt
