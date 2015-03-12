@@ -29,7 +29,7 @@
 <name>Ligth0</name>
 <addr>500</addr>
 <type>0</type>
-<state>5</state>          
+<state>400</state>        
 <Device No="3">
 <location>Kitchen</location>
 <name>Switch0</name>

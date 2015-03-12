@@ -33,9 +33,10 @@
 
 int main(int argc, char** argv)
 {
-	int ret;
+	int devcnt;
 	xmlObj *state_ptr;
 	char log[200];
+	Canmsg newCanmsg;
 
 	printf("Raspberry Pi CAN-at-Home Server\nFelix Schulze 2015\nmail@felixschulze.com\n\n");
 
@@ -47,9 +48,9 @@ int main(int argc, char** argv)
 	}
 
 	// count devices for allocationg memory
-	ret = countDev();
+	devcnt = countDev();
 
-	if(ret == -1)
+	if(devcnt == -1)
 	{
 		printf("Could not open status.xml\n");
 		return 1;
@@ -62,11 +63,11 @@ int main(int argc, char** argv)
 	}
 
 	
-	sprintf(log, "Found %i Devices in XML File\n", ret);
+	sprintf(log, "Found %i Devices in XML File\n", devcnt);
 	new_log_entry(log);
 
 	// allocate memory for xmlObj structs
-	state_ptr = malloc(ret * (sizeof(xmlObj)));
+	state_ptr = malloc(devcnt * (sizeof(xmlObj)));
 
 	if(state_ptr == NULL)
 	{
@@ -75,9 +76,9 @@ int main(int argc, char** argv)
 	}
 
 	// get the devices in a struct back
-	getDev(ret, state_ptr);
+	getDev(devcnt, state_ptr);
 
-	for(int i = 0; i < ret; i++)
+	for(int i = 0; i < devcnt; i++)
 	{
 		new_log_entry("Found the following Device:\n");
 		sprintf(log, "	Dev No: %i\n",state_ptr[i].devnum );
@@ -105,7 +106,20 @@ int main(int argc, char** argv)
 	new_log_entry("MCP2515 CAN controller successfully initialized\n");
 	*/
 
-	//changeDevData(123123,6);
+	
+	while(1)
+	{
+		// check for new data
+			//changeDevData(123123,6);
+			//if new data comes in save in xml file and send to python script
+			
+		// check chgaddr.txt for new data
+			//getDev(devcnt, state_ptr);
+		 	//newCanmsg.id = xxx;
+			//can_send_msg(newCanmsg);
+
+	}
+	
 
 	// close files, clear memory and stop spi access
 	free(state_ptr);
