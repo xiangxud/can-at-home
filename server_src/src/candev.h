@@ -17,6 +17,9 @@
 #define CANDEV_H
 
 #define STATUS_FILE "./status.xml"
+#define CHGADDR_FILE "./chgaddr.txt"
+#define CHGADDR_FILE_TMP "./chgaddr.txt.tmp"
+
 
 typedef struct
 {
@@ -37,5 +40,8 @@ int16_t getDev(int count, xmlObj* xmlptr);
 
 // change state in xml file
 int16_t changeDevData(uint32_t addr, uint16_t data);
+
+// reads out the chgaddr file
+uint32_t getchgaddr();
 
  #endif

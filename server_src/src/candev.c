@@ -214,3 +214,46 @@ int16_t changeDevData(uint32_t addr, uint16_t data)
 	}	
 return 0;
 }
+
+uint32_t getchgaddr()
+{
+		
+	// ! Not working function for read out the amended addresses by the python skript
+	char straddr[9];
+	char buffer[50];
+	FILE *fd, *fdt;
+	uint8_t a = 0;
+
+	sprintf(buffer, "chmod 777 %s",CHGADDR_FILE);
+
+
+	fd = fopen(CHGADDR_FILE, "r");
+
+	while(fgets(straddr, 8, fd))
+		a++;
+
+	fclose(fd);
+
+	if(a<1)
+		return 0;
+		
+
+
+	fd = fopen(CHGADDR_FILE, "r");
+	fdt = fopen(CHGADDR_FILE_TMP, "w");
+
+	for(int i= 0; i<a-1 && fgets(straddr, 8, fd) != 0; i++)
+		fputs(straddr, fdt);
+
+	fgets(straddr, 8, fd);
+
+	fclose(fd);
+	fclose(fdt);
+
+	remove(CHGADDR_FILE);
+	rename(CHGADDR_FILE_TMP, CHGADDR_FILE);
+	system(buffer);
+
+	
+	return atoi(straddr);
+}

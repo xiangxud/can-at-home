@@ -17,7 +17,7 @@ all: helper main.o candev.o loghelper.o bcm2835.o mcp2515.o
 
 helper:
 	mkdir -p $(BUILDDIR)
-	echo END > ./chgaddr.txt
+	touch ./chgaddr.txt
 
 main.o: $(SRCDIR)/main.c
 	gcc -c -std=gnu99 $(SRCDIR)/main.c -Wall -o $(BUILDDIR)/main.o
@@ -43,3 +43,4 @@ clean:
 	rm -rf $(BUILDDIR)/
 	rm -f log.txt
 	rm -f chgaddr.txt
+	rm -f chgaddr.txt.tmp

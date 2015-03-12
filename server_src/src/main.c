@@ -29,42 +29,7 @@
 #include "bcm2835.h"
 #include "mcp2515.h"
 
-#define CHGADDR_FILE "./chgaddr.txt"
 
-void getchgaddr(uint32_t *addr)
-{
-	// ! Not working function for read out the amended addresses by the python skript
-	char straddr[9];
-	FILE *fd;
-	fpos_t pos0;
-	fpos_t pos1;
-
-
-	fd = fopen(CHGADDR_FILE, "r+");
-
-
-	while(fgets(straddr, 8, fd))
-	{
-		if(strcmp("END", straddr) == 0)
-		{
-			break;
-		}
-		printf("%s", straddr);
-		*addr = atoi(straddr);
-		pos1=pos0;
-		fgetpos(fd, &pos0);
-
-
-	}
-
-	fsetpos(fd, &pos1);
-	fputs("END",fd);
-
-	fclose(fd);
-
-	
-	return;
-}
 
 int main(int argc, char** argv)
 {
@@ -142,7 +107,7 @@ int main(int argc, char** argv)
 	*/
 
 	uint32_t newaddr;
-	getchgaddr(&newaddr);
+	newaddr = getchgaddr();
 	printf("Addr: %" PRIu32"\n", newaddr);
 	
 	/*while(1)
