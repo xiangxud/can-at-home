@@ -12,6 +12,7 @@ BUILDDIR = build
 
 all: helper main.o candev.o loghelper.o bcm2835.o mcp2515.o
 	gcc -o $(TARGET) $(BUILDDIR)/main.o $(BUILDDIR)/candev.o $(BUILDDIR)/loghelper.o  $(BUILDDIR)/mcp2515.o  $(BUILDDIR)/bcm2835.o
+	gcc -o chgxml chgxml.c -std=gnu99 -Wall
 
 helper:
 	mkdir -p $(BUILDDIR)
@@ -38,3 +39,4 @@ clean:
 	rm -f $(TARGET)
 	rm -rf $(BUILDDIR)/
 	rm -f log.txt
+	rm -f chgxml
