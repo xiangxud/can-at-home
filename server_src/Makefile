@@ -3,35 +3,36 @@
 # Date:    28/02/2015
 #
 # Desc:   Makefile
-# Ver.:      0.01
+# Ver.:      0.02
 #
 #
 
 TARGET = canserver
-BUILDDIR = build
+BUILDDIR = ./build
+SRCDIR = ./src
 
 all: helper main.o candev.o loghelper.o bcm2835.o mcp2515.o
 	gcc -o $(TARGET) $(BUILDDIR)/main.o $(BUILDDIR)/candev.o $(BUILDDIR)/loghelper.o  $(BUILDDIR)/mcp2515.o  $(BUILDDIR)/bcm2835.o
-	gcc -o chgxml ./src/chgxml.c -std=gnu99 -Wall
+	gcc -o chgxml $(SRCDIR)/chgxml.c -std=gnu99 -Wall
 
 helper:
 	mkdir -p $(BUILDDIR)
-	touch ./chgaddr.txt
+	echo END > ./chgaddr.txt
 
-main.o: ./src/main.c
-	gcc -c -std=gnu99 ./src/main.c -Wall -o $(BUILDDIR)/main.o
+main.o: $(SRCDIR)/main.c
+	gcc -c -std=gnu99 $(SRCDIR)/main.c -Wall -o $(BUILDDIR)/main.o
 
-candev.o: ./src/candev.c
-	gcc -c -std=gnu99 ./src/candev.c -Wall -o $(BUILDDIR)/candev.o
+candev.o: $(SRCDIR)/candev.c
+	gcc -c -std=gnu99 $(SRCDIR)/candev.c -Wall -o $(BUILDDIR)/candev.o
 
-loghelper.o: ./src/loghelper.c
-	gcc -c -std=gnu99 ./src/loghelper.c -Wall -o $(BUILDDIR)/loghelper.o
+loghelper.o: $(SRCDIR)/loghelper.c
+	gcc -c -std=gnu99 $(SRCDIR)/loghelper.c -Wall -o $(BUILDDIR)/loghelper.o
 
-bcm2835.o: ./src/bcm2835.c
-	gcc -c -std=gnu99 ./src/bcm2835.c -Wno-pointer-to-int-cast -o $(BUILDDIR)/bcm2835.o
+bcm2835.o: $(SRCDIR)/bcm2835.c
+	gcc -c -std=gnu99 $(SRCDIR)/bcm2835.c -Wno-pointer-to-int-cast -o $(BUILDDIR)/bcm2835.o
 
-mcp2515.o: ./src/mcp2515.c
-	gcc -c -std=gnu99 ./src/mcp2515.c -Wall -o $(BUILDDIR)/mcp2515.o
+mcp2515.o: $(SRCDIR)/mcp2515.c
+	gcc -c -std=gnu99 $(SRCDIR)/mcp2515.c -Wall -o $(BUILDDIR)/mcp2515.o
 
 
 
