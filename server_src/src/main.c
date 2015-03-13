@@ -1,9 +1,9 @@
 /*
  * Author: Felix Schulze
- * Date:    04/03/2015
+ * Date:   12/03/2015
  *
  * Desc:   RaspberryPi Server Code
- * Ver.:      0.03
+ * Ver.:   0.03
  *
  *
  *
@@ -37,6 +37,8 @@ int main(int argc, char** argv)
 	xmlObj *state_ptr;
 	char log[200];
 	Canmsg newCanmsg;
+	uint32_t changeAt;
+	int counter;
 
 	printf("Raspberry Pi CAN-at-Home Server\nFelix Schulze 2015\nmail@felixschulze.com\n\n");
 
@@ -56,12 +58,6 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	if(begin_new_log() == -1)
-	{
-		printf("Could not open log.txt\n");
-		return 1;
-	}
-
 	
 	sprintf(log, "Found %i Devices in XML File\n", devcnt);
 	new_log_entry(log);
@@ -75,7 +71,7 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	// get the devices in a struct back
+	// get the devices back in a struct
 	getDev(devcnt, state_ptr);
 
 	for(int i = 0; i < devcnt; i++)
@@ -105,28 +101,36 @@ int main(int argc, char** argv)
 	mcp_init();
 	new_log_entry("MCP2515 CAN controller successfully initialized\n");
 	*/
-
-	uint32_t newaddr;
-	newaddr = getchgaddr();
-	printf("Addr: %" PRIu32"\n", newaddr);
 	
+	changeDevData(123123,6);
+
 	/*while(1)
 	{
 		// check for new data
-			//changeDevData(123123,6);
+			
 			//if new data comes in save in xml file and send to python script
 			
-		// check chgaddr.txt for new data
-			//getDev(devcnt, state_ptr);
-		 	//newCanmsg.id = xxx;
+		if((changeAt = getchgaddr()) != 0)
+		{
+			getDev(devcnt, state_ptr);
+			for(counter = 0; counter < devcnt; counter ++)
+			{
+				if(state_ptr[counter].addr == changeAt)
+					break;
+			}
+			newCanmsg.id = state_ptr[counter].addr;
+			newCanmsg.rtr = 0;
+			newCanmsg.length = 2;
+			newCanmsg.data[0] = (uint8_t) (state_ptr[counter].state >> 8);
+			newCanmsg.data[1] = (uint8_t) (state_ptr[counter].state & 0xFF);
+			new_can_log_entry(&newCanmsg);
 			//can_send_msg(newCanmsg);
-
+		}
 	}*/
 	
 
 	// close files, clear memory and stop spi access
 	free(state_ptr);
-	void close_log();
 	//bcm2835_spi_end();
 
 return 0;

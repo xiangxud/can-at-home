@@ -17,28 +17,18 @@
 #include <stdint.h>
 #include <string.h>
 #include <time.h>
+#include <inttypes.h>
 
 #include "loghelper.h"
+#include "mcp2515.h"
 
 
-FILE *lgf;
-
-uint8_t begin_new_log()
-{
-	lgf = fopen(LOG_FILE, "a");
-	if(lgf == NULL)
-		return -1;
-
-	fprintf(lgf, "######################### New Log #########################\n");
-
-	return 0;
-}
 
 void new_log_entry(char *s)
 {
 
 	
-
+	FILE *lgf;
 	struct tm *tmp;
 	time_t sec;
 	char timeString[24];
@@ -48,11 +38,11 @@ void new_log_entry(char *s)
 	
 
 	// get time in sec
-     	sec = time(NULL);
-     	// get time back in struct
-      	tmp = localtime(&sec);
+    sec = time(NULL);
+    // get time back in struct
+    tmp = localtime(&sec);
 
-      	strftime(timeString, sizeof(timeString), "[ %d.%m.%Y %H:%M:%S ]", tmp);
+   	strftime(timeString, sizeof(timeString), "[ %d.%m.%Y %H:%M:%S ]", tmp);
 	
 	strcpy(msg, timeString);
 	memset(&msg[23], ' ', 6);
@@ -61,13 +51,20 @@ void new_log_entry(char *s)
 	// search end of string for calculating string length
 	char *search = strchr(msg, '\n') + 1;
 
+	lgf = fopen(LOG_FILE, "a");
 	fwrite(msg , 1 , search-msg , lgf );
+	fclose(lgf);
 
 	return;
 }
 
-void close_log()
+
+void new_can_log_entry(Canmsg *s_msg)
 {
-	fclose(lgf);
+	char msg[250];
+
+	sprintf(msg, "Send Message Address: %" PRIu32" Length: %i Data0: %i Data1: %i\n", s_msg->id, s_msg->length, s_msg->data[0], s_msg->data[1]);
+	new_log_entry(msg);
+
 	return;
 }

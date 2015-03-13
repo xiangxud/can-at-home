@@ -15,13 +15,13 @@
 #ifndef LOGHELPER_H
 #define LOGHELPER_H
 
-#define LOG_FILE "./log.txt"
+#include "mcp2515.h" 
 
-uint8_t begin_new_log();
+#define LOG_FILE "./log.txt"
 
 void new_log_entry(char *s);
 
-void close_log();
+void new_can_log_entry(Canmsg *s_msg);
 
 
 #endif

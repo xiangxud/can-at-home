@@ -2,7 +2,7 @@
 
 #
 # Author: Felix Schulze
-# Date:   12/03/2015
+# Date:   13/03/2015
 #
 # ----------------------------------------------------------------------------
 # "THE BEER-WARE LICENSE" (Revision 42):
@@ -13,26 +13,14 @@
 #/
 
 import sys
-import string
-import os
 import myfunc as func
+
 
 
 if(len(sys.argv) < 3):
 	print ("Error")
 	sys.exit()
 
-
-# swtich kitchen, light kitchen
-
-if(sys.argv[1] == "501"):
-	func.setDev(500, string.atoi(sys.argv[2]))
-	func.chgaddr(500)
-	sys.exit()
-
-if(sys.argv[1] == "123123"):
-	#set addr to device
-	#set addr to change
-	sys.exit()
+func.manipulateXML(int(sys.argv[1]), int(sys.argv[2]))
 
 sys.exit()

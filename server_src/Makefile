@@ -13,7 +13,6 @@ SRCDIR = ./src
 
 all: helper main.o candev.o loghelper.o bcm2835.o mcp2515.o
 	gcc -o $(TARGET) $(BUILDDIR)/main.o $(BUILDDIR)/candev.o $(BUILDDIR)/loghelper.o  $(BUILDDIR)/mcp2515.o  $(BUILDDIR)/bcm2835.o
-	gcc -o chgxml $(SRCDIR)/chgxml.c -std=gnu99 -Wall
 
 helper:
 	mkdir -p $(BUILDDIR)
@@ -39,8 +38,8 @@ mcp2515.o: $(SRCDIR)/mcp2515.c
 
 clean:
 	rm -f $(TARGET)
-	rm -f chgxml
 	rm -rf $(BUILDDIR)/
 	rm -f log.txt
 	rm -f chgaddr.txt
 	rm -f chgaddr.txt.tmp
+	rm -f ./*.pyc
