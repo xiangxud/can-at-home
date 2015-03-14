@@ -1,3 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- Felix Schulze 2015 -->
+<!-- Example File-->
+<!--
+	Type 0: Digital Out
+	Type 1: Digital In
+	Type 2: Analog Out
+	Type 3: Light dim
+	Type 4:
+-->
+
 <canstatus>
 	<device no="0">
 		<location>LivingRoom</location>
