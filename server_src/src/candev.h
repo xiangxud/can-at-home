@@ -29,6 +29,7 @@ typedef struct
 	uint32_t   addr;
 	uint16_t   type;
 	uint16_t state;
+	unsigned long timestamp;
 } xmlObj;
 
 
@@ -39,7 +40,7 @@ int16_t countDev();
 int16_t getDev(int count, xmlObj* xmlptr);
 
 // change state in xml file
-int16_t changeDevData(uint32_t addr, uint16_t data);
+int16_t changeDevData(uint32_t addr, uint16_t data, time_t timestamp);
 
 // reads out the chgaddr file
 uint32_t getchgaddr();

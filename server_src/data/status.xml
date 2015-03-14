@@ -1,34 +1,65 @@
 <canstatus>
 	<device no="0">
-		<location>LivingRoom</location>
-		<name>PowerPoint0</name>
-		<addr>123123</addr>
+		<location>kitchen</location>
+		<name>light0</name>
+		<addr>500</addr>
 		<type>0</type>
-		<state>6</state>
+		<state>1</state>
+		<timestamp>1426345611</timestamp>
 	</device>
 
 	<device no="1">
-		<location>LivingRoom</location>
-		<name>PowerPoint1</name>
-		<addr>11</addr>
-		<type>0</type>
-		<state>13</state>
+		<location>kitchen</location>
+		<name>light1</name>
+		<addr>501</addr>
+		<type>2</type>
+		<state>40</state>
+		<timestamp>1426349505</timestamp>
 	</device>
 
 	<device no="2">
-		<location>Kitchen</location>
-		<name>Ligth0</name>
-		<addr>500</addr>
-		<type>0</type>
-		<state>123</state>
+		<location>kitchen</location>
+		<name>switch0</name>
+		<addr>502</addr>
+		<type>1</type>
+		<state>1</state>
+		<timestamp>2000</timestamp>
 	</device>
 
 	<device no="3">
 		<location>Kitchen</location>
-		<name>Switch0</name>
-		<addr>501</addr>
-		<type>1</type>
-		<state>4</state>
+		<name>dimmer0</name>
+		<addr>503</addr>
+		<type>3</type>
+		<state>40</state>
+		<timestamp>2000</timestamp>
+	</device>
+
+	<device no="4">
+		<location>Kitchen</location>
+		<name>temperature-actual0</name>
+		<addr>504</addr>
+		<type>3</type>
+		<state>47</state>
+		<timestamp>3456</timestamp>
+	</device>
+
+	<device no="5">
+		<location>Kitchen</location>
+		<name>temperature-target0</name>
+		<addr>505</addr>
+		<type>3</type>
+		<state>301</state>
+		<timestamp>3456</timestamp>
+	</device>
+
+	<device no="6">
+		<location>Kitchen</location>
+		<name>heating0</name>
+		<addr>506</addr>
+		<type>0</type>
+		<state>1</state>
+		<timestamp>1426350192</timestamp>
 	</device>
 
 </canstatus>

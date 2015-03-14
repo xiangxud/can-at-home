@@ -3,7 +3,7 @@
  * Date:   12/03/2015
  *
  * Desc:   RaspberryPi Server Code
- * Ver.:   0.03
+ * Ver.:   0.04
  *
  *
  *
@@ -95,6 +95,8 @@ int main(int argc, char** argv)
 		new_log_entry(log);
 		sprintf(log, "	State: %i\n",state_ptr[i].state);
 		new_log_entry(log);
+		sprintf(log, "	TimeStamp: %lu\n",state_ptr[i].timestamp);
+		new_log_entry(log);
 	}
 
 	// init spi interface
@@ -107,7 +109,7 @@ int main(int argc, char** argv)
 	new_log_entry("MCP2515 CAN controller successfully initialized\n");
 	*/
 	
-	//changeDevData(123123,6);
+	
 	while(1)
 	{
 		// check for new data
@@ -131,6 +133,7 @@ int main(int argc, char** argv)
 			newCanmsg.data[1] = (uint8_t) (state_ptr[counter].state & 0xFF);
 			//while(can_send_msg(newCanmsg));
 			new_can_log_entry(&newCanmsg);
+			changeDevData(state_ptr[counter].addr, state_ptr[counter].state,time(NULL));
 		}
 
 		// check time for any query sensors

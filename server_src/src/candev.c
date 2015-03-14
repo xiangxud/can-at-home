@@ -17,6 +17,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <inttypes.h>
+#include <time.h>
 
 #include "candev.h"
 
@@ -87,6 +88,11 @@ int16_t getDev(int count, xmlObj* xmlptr)
 					*wptr1 = 0;
 					xmlptr[e].state = atoi(wptr0);
 				}
+				else if(strstr(temp,"timestamp") != NULL) 
+				{
+					*wptr1 = 0;
+					xmlptr[e].timestamp = atoi(wptr0);
+				}
 				else if (strstr(temp,"device") != NULL) 
 				{
 					break;
@@ -98,10 +104,10 @@ int16_t getDev(int count, xmlObj* xmlptr)
 return 0;
 }
 
-int16_t changeDevData(uint32_t addr, uint16_t data)
+int16_t changeDevData(uint32_t addr, uint16_t data, time_t timestamp)
 {
 	char buffer[50];
-	sprintf(buffer, "./src/chgxml.py %" PRIu32" %i",addr, data);
+	sprintf(buffer, "./chgxml.py %" PRIu32" %i %lu",addr, data, (unsigned long) timestamp);
 	system(buffer);
 
 	return 0;

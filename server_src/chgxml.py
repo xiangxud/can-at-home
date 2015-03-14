@@ -2,7 +2,7 @@
 
 #
 # Author: Felix Schulze
-# Date:   12/03/2015
+# Date:   13/03/2015
 #
 # ----------------------------------------------------------------------------
 # "THE BEER-WARE LICENSE" (Revision 42):
@@ -13,26 +13,23 @@
 #/
 
 import sys
-import string
-import os
 import myfunc as func
 
 
-if(len(sys.argv) < 3):
-	print ("Error")
+
+if(len(sys.argv) < 4):
+	print ("Error use ./react.py addr state timestamp")
 	sys.exit()
 
 
-# swtich kitchen, light kitchen
+#change new data in xml file
+func.manipulateXML_State(int(sys.argv[1]), int(sys.argv[2]))
+func.manipulateXML_Timestamp(int(sys.argv[1]), int(sys.argv[3]))
 
-if(sys.argv[1] == "501"):
-	func.setDev(500, string.atoi(sys.argv[2]))
-	func.chgaddr(500)
-	sys.exit()
-
-if(sys.argv[1] == "123123"):
-	#set addr to device
-	#set addr to change
-	sys.exit()
+#log change in extra file
+filename =  "./data/"+ sys.argv[1] + "-" + func.getSensName(int(sys.argv[1])) + "-" + func.getSensLocation(int(sys.argv[1])) + ".csv"
+fd = open(filename, "a")
+fd.write(sys.argv[3] + ", " + sys.argv[2] + "\n")
+fd.close()
 
 sys.exit()

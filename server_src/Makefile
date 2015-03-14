@@ -42,6 +42,4 @@ clean:
 	rm -rf $(BUILDDIR)/
 	rm -rf ./var
 	rm -f log.txt
-	rm -f chgaddr.txt
-	rm -f chgaddr.txt.tmp
-	rm -f ./*.pyc
+	rm -f ./data/*.csv
