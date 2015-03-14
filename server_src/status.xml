@@ -20,7 +20,7 @@
 		<name>Ligth0</name>
 		<addr>500</addr>
 		<type>0</type>
-		<state>9000</state>
+		<state>301</state>
 	</device>
 
 	<device no="3">

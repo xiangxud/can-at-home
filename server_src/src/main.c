@@ -102,9 +102,8 @@ int main(int argc, char** argv)
 	new_log_entry("MCP2515 CAN controller successfully initialized\n");
 	*/
 	
-	changeDevData(123123,6);
-
-	/*while(1)
+	//changeDevData(123123,6);
+	while(1)
 	{
 		// check for new data
 			
@@ -112,6 +111,7 @@ int main(int argc, char** argv)
 			
 		if((changeAt = getchgaddr()) != 0)
 		{
+			
 			getDev(devcnt, state_ptr);
 			for(counter = 0; counter < devcnt; counter ++)
 			{
@@ -126,7 +126,9 @@ int main(int argc, char** argv)
 			new_can_log_entry(&newCanmsg);
 			//can_send_msg(newCanmsg);
 		}
-	}*/
+		sleep(1);
+	
+	}
 	
 
 	// close files, clear memory and stop spi access

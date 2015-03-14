@@ -3,7 +3,7 @@
 # Date:    28/02/2015
 #
 # Desc:   Makefile
-# Ver.:      0.02
+# Ver.:   0.02
 #
 #
 

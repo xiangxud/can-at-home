@@ -30,7 +30,6 @@
 #define BITRATE 125
 //#define BITRATE 250
 //#define BITRATE 500
-//#define BITRATE 1000
 
 #define SPI_RESET 0b11000000
 #define SPI_READ 0b00000011
@@ -249,7 +248,19 @@
 	#define R_CNF1 (1<<BRP2) | (1<<BRP1) | (1<<BRP0)
 	#define R_CNF2 (1<<BTLMODE) | (1<<PHSEG11)
 	#define R_CNF3 (1<<PHSEG21)
- 	#endif
+#endif
+
+#if(BITRATE == 250)
+	#define R_CNF1 (1<<BRP1) | (1<<BRP0)
+	#define R_CNF2 (1<<BTLMODE) | (1<<PHSEG11)
+	#define R_CNF3 (1<<PHSEG21)
+#endif
+
+#if(BITRATE == 500)
+	#define R_CNF1 (1<<BRP0)
+	#define R_CNF2 (1<<BTLMODE) | (1<<PHSEG11)
+	#define R_CNF3 (1<<PHSEG21)
+#endif
 
 typedef struct
 {
