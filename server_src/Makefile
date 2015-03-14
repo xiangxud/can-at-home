@@ -16,7 +16,8 @@ all: helper main.o candev.o loghelper.o bcm2835.o mcp2515.o
 
 helper:
 	mkdir -p $(BUILDDIR)
-	touch ./chgaddr.txt
+	mkdir -p ./var
+	touch ./var/chgaddr.txt
 
 main.o: $(SRCDIR)/main.c
 	gcc -c -std=gnu99 $(SRCDIR)/main.c -Wall -o $(BUILDDIR)/main.o
@@ -39,6 +40,7 @@ mcp2515.o: $(SRCDIR)/mcp2515.c
 clean:
 	rm -f $(TARGET)
 	rm -rf $(BUILDDIR)/
+	rm -rf ./var
 	rm -f log.txt
 	rm -f chgaddr.txt
 	rm -f chgaddr.txt.tmp

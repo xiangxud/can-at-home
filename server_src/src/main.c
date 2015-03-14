@@ -23,6 +23,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <inttypes.h>
+#include <time.h>
 
 #include "candev.h"
 #include "loghelper.h"
@@ -38,6 +39,9 @@ int main(int argc, char** argv)
 	char log[200];
 	Canmsg newCanmsg;
 	uint32_t changeAt;
+
+	time_t lastUpdate = 0;
+
 	int counter;
 
 	printf("Raspberry Pi CAN-at-Home Server\nFelix Schulze 2015\nmail@felixschulze.com\n\n");
@@ -57,6 +61,7 @@ int main(int argc, char** argv)
 		printf("Could not open status.xml\n");
 		return 1;
 	}
+
 
 	
 	sprintf(log, "Found %i Devices in XML File\n", devcnt);
@@ -107,8 +112,9 @@ int main(int argc, char** argv)
 	{
 		// check for new data
 			
-			//if new data comes in save in xml file and send to python script
-			
+			//if new data comes in, save in xml file and send to python script
+		
+		// check if python script or webserver had changed values in xml file	
 		if((changeAt = getchgaddr()) != 0)
 		{
 			
@@ -123,11 +129,17 @@ int main(int argc, char** argv)
 			newCanmsg.length = 2;
 			newCanmsg.data[0] = (uint8_t) (state_ptr[counter].state >> 8);
 			newCanmsg.data[1] = (uint8_t) (state_ptr[counter].state & 0xFF);
+			//while(can_send_msg(newCanmsg));
 			new_can_log_entry(&newCanmsg);
-			//can_send_msg(newCanmsg);
 		}
-		sleep(1);
-	
+
+		// check time for any query sensors
+		if(lastUpdate < (time(NULL) - 899))
+		{
+			lastUpdate = time(NULL);
+			new_log_entry("Send request to all sensors\n");
+		}
+		
 	}
 	
 

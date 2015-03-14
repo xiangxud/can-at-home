@@ -16,9 +16,9 @@
 #ifndef CANDEV_H
 #define CANDEV_H
 
-#define STATUS_FILE "./status.xml"
-#define CHGADDR_FILE "./chgaddr.txt"
-#define CHGADDR_FILE_TMP "./chgaddr.txt.tmp"
+#define STATUS_FILE "./data/status.xml"
+#define CHGADDR_FILE "./var/chgaddr.txt"
+#define CHGADDR_FILE_TMP "./var/chgaddr.txt.tmp"
 
 
 typedef struct

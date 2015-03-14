@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
-XML_FILE = "./status.xml"
-CHGADDR_FILE = "./chgaddr.txt"
+XML_FILE = "../data/status.xml"
+CHGADDR_FILE = "../var/chgaddr.txt"
 
 #As Example
 #Readout the hole XML file

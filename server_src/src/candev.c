@@ -101,7 +101,7 @@ return 0;
 int16_t changeDevData(uint32_t addr, uint16_t data)
 {
 	char buffer[50];
-	sprintf(buffer, "./chgxml.py %" PRIu32" %i",addr, data);
+	sprintf(buffer, "./src/chgxml.py %" PRIu32" %i",addr, data);
 	system(buffer);
 
 	return 0;
