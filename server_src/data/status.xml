@@ -40,8 +40,8 @@
 		<name>temperature-actual0</name>
 		<addr>504</addr>
 		<type>3</type>
-		<state>47</state>
-		<timestamp>3456</timestamp>
+		<state>1</state>
+		<timestamp>1426455367</timestamp>
 	</device>
 
 	<device no="5">

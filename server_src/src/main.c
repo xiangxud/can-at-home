@@ -136,7 +136,7 @@ int main(int argc, char** argv)
 			newCanmsg.length = 2;
 			newCanmsg.data[0] = (uint8_t) (state_ptr[counter].state >> 8);
 			newCanmsg.data[1] = (uint8_t) (state_ptr[counter].state & 0xFF);
-			while(can_send_msg(newCanmsg));
+			while(can_send_msg(&newCanmsg));
 			new_can_log_entry(0, &newCanmsg);
 			changeDevData(state_ptr[counter].addr, state_ptr[counter].state);
 		}

@@ -6,6 +6,9 @@ CHGADDR_FILE = "./var/chgaddr.txt"
 #As Example
 #Readout the hole XML file
 '''
+tree = ET.parse(XML_FILE)
+root = tree.getroot()
+
 for device in root.findall('device'):
 	dnumber = device.get('no')
 	dlocation = device.find('location').text
