@@ -4,8 +4,8 @@
 		<name>light0</name>
 		<addr>500</addr>
 		<type>0</type>
-		<state>1</state>
-		<timestamp>1426345611</timestamp>
+		<state>2</state>
+		<timestamp>1426364200</timestamp>
 	</device>
 
 	<device no="1">
@@ -22,8 +22,8 @@
 		<name>switch0</name>
 		<addr>502</addr>
 		<type>1</type>
-		<state>1</state>
-		<timestamp>2000</timestamp>
+		<state>2</state>
+		<timestamp>1426364200</timestamp>
 	</device>
 
 	<device no="3">

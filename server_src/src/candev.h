@@ -40,7 +40,7 @@ int16_t countDev();
 int16_t getDev(int count, xmlObj* xmlptr);
 
 // change state in xml file
-int16_t changeDevData(uint32_t addr, uint16_t data, time_t timestamp);
+int16_t changeDevData(uint32_t addr, uint16_t data);
 
 // reads out the chgaddr file
 uint32_t getchgaddr();

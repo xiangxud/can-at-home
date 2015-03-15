@@ -133,7 +133,7 @@ int main(int argc, char** argv)
 			newCanmsg.data[1] = (uint8_t) (state_ptr[counter].state & 0xFF);
 			//while(can_send_msg(newCanmsg));
 			new_can_log_entry(&newCanmsg);
-			changeDevData(state_ptr[counter].addr, state_ptr[counter].state,time(NULL));
+			changeDevData(state_ptr[counter].addr, state_ptr[counter].state);
 		}
 
 		// check time for any query sensors

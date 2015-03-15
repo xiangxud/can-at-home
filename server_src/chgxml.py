@@ -14,22 +14,24 @@
 
 import sys
 import myfunc as func
+from time import *
 
 
 
-if(len(sys.argv) < 4):
-	print ("Error use ./react.py addr state timestamp")
+if(len(sys.argv) < 3):
+	print ("Error use ./react.py addr state")
 	sys.exit()
 
+timestamp = int(time())
 
 #change new data in xml file
 func.manipulateXML_State(int(sys.argv[1]), int(sys.argv[2]))
-func.manipulateXML_Timestamp(int(sys.argv[1]), int(sys.argv[3]))
+func.manipulateXML_Timestamp(int(sys.argv[1]), timestamp)
 
 #log change in extra file
 filename =  "./data/"+ sys.argv[1] + "-" + func.getSensName(int(sys.argv[1])) + "-" + func.getSensLocation(int(sys.argv[1])) + ".csv"
 fd = open(filename, "a")
-fd.write(sys.argv[3] + ", " + sys.argv[2] + "\n")
+fd.write(str(timestamp) + ", " + sys.argv[2] + "\n")
 fd.close()
 
 sys.exit()

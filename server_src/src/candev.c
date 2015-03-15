@@ -104,10 +104,10 @@ int16_t getDev(int count, xmlObj* xmlptr)
 return 0;
 }
 
-int16_t changeDevData(uint32_t addr, uint16_t data, time_t timestamp)
+int16_t changeDevData(uint32_t addr, uint16_t data)
 {
 	char buffer[50];
-	sprintf(buffer, "./chgxml.py %" PRIu32" %i %lu",addr, data, (unsigned long) timestamp);
+	sprintf(buffer, "./chgxml.py %" PRIu32" %i",addr, data);
 	system(buffer);
 
 	return 0;
@@ -116,7 +116,6 @@ int16_t changeDevData(uint32_t addr, uint16_t data, time_t timestamp)
 uint32_t getchgaddr()
 {
 		
-	// ! Not working function for read out the amended addresses by the python skript
 	char straddr[9];
 	char buffer[50];
 	FILE *fd, *fdt;
