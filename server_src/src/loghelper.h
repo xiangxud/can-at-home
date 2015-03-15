@@ -21,7 +21,7 @@
 
 void new_log_entry(char *s);
 
-void new_can_log_entry(Canmsg *s_msg);
+void new_can_log_entry(int dir, Canmsg *s_msg);
 
 
 #endif

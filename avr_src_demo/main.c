@@ -28,14 +28,17 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 #include <stdlib.h>
+#include "i2cmaster.h"
 #include "uart.h"
 #include "mcp2515.h"
+
+#define LM75 0x90
 
 
 int main(void)
 {
 
-	char buffer[10];
+
 	Canmsg msg;
 	Canmsg newmsg;
 
@@ -43,27 +46,44 @@ int main(void)
 	DDR_LED0 |= (1<<LED0);
 	DDR_LED1 |= (1<<LED1);
 
-	msg.id = 0x1AAF123A;
+	msg.id = 504;
 	msg.rtr = 0;
-	msg.length = 4;
+	msg.length = 2;
 	msg.data[0] = 0x01;
 	msg.data[1] = 0x02;
-	msg.data[2] = 0x03;
-	msg.data[3] = 0x04;
 
-
+	uint16_t temperature = 0;
+	uint8_t dp = 0;
 	uart_init(BAUD_SELECT(BAUD, F_CPU));
+
+	i2c_init();
+
 	
 	uart_puts("AVR-CAN-Demo Code\n\rFelix Schulze 2015\n\rmail@felixschulze.com\n\r\n\r");
 	mcp_init();
-	
 
-
-	PORT_LED0 |= (1<<LED0);
-
-	
-	
 	can_send_msg(&msg);
+
+
+
+	i2c_start(LM75+I2C_WRITE);
+	i2c_write(0x00);
+    i2c_rep_start(LM75+I2C_READ);
+	
+	temperature = i2c_readAck();
+	dp = i2c_readNak();
+	i2c_stop();
+
+	temperature += 273;
+	temperature *= 10;
+	if(dp & 0x80)
+		temperature += 5;
+	
+
+	
+	PORT_LED0 |= (1<<LED0);
+	
+	
 	
 	uart_puts(":: send test message\n\r");
 
@@ -74,6 +94,24 @@ int main(void)
 		{
 			uart_can_msg(&newmsg);
 		}
+
+		i2c_start(LM75+I2C_READ);
+		temperature = i2c_readAck();
+		dp = i2c_readNak();
+		i2c_stop();
+
+		temperature += 273;
+		temperature *= 10;
+		if(dp & 0x80)
+			temperature += 5;
+
+		msg.data[0] = temperature >> 8;
+		msg.data[1] = temperature & 0xff;
+
+		can_send_msg(&msg);
+
+		for(int i = 0; i < 30; i++)
+			_delay_ms(100);
 	}
 
   

@@ -49,8 +49,8 @@
 		<name>temperature-target0</name>
 		<addr>505</addr>
 		<type>3</type>
-		<state>301</state>
-		<timestamp>3456</timestamp>
+		<state>295</state>
+		<timestamp>1426413420</timestamp>
 	</device>
 
 	<device no="6">

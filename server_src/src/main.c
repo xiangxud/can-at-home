@@ -37,6 +37,7 @@ int main(int argc, char** argv)
 	int devcnt;
 	xmlObj *state_ptr;
 	char log[200];
+	char buffer[50];
 	Canmsg newCanmsg;
 	uint32_t changeAt;
 
@@ -100,22 +101,26 @@ int main(int argc, char** argv)
 	}
 
 	// init spi interface
-	/*if (!bcm2835_init())
+	if (!bcm2835_init())
 		return 1;
 	new_log_entry("BCM2835 SPI interface successfully initialized\n");
 	
 	// init can controller
 	mcp_init();
 	new_log_entry("MCP2515 CAN controller successfully initialized\n");
-	*/
+	
 	
 	
 	while(1)
 	{
 		// check for new data
-			
-			//if new data comes in, save in xml file and send to python script
-		
+		if(can_get_msg(&newCanmsg) == 0)
+		{
+			new_can_log_entry(1, &newCanmsg);
+			sprintf(buffer, "./react.py %" PRIu32" %i",newCanmsg.id, newCanmsg.data[0] << 8 | newCanmsg.data[1]);
+			system(buffer);
+		}
+
 		// check if python script or webserver had changed values in xml file	
 		if((changeAt = getchgaddr()) != 0)
 		{
@@ -131,8 +136,8 @@ int main(int argc, char** argv)
 			newCanmsg.length = 2;
 			newCanmsg.data[0] = (uint8_t) (state_ptr[counter].state >> 8);
 			newCanmsg.data[1] = (uint8_t) (state_ptr[counter].state & 0xFF);
-			//while(can_send_msg(newCanmsg));
-			new_can_log_entry(&newCanmsg);
+			while(can_send_msg(newCanmsg));
+			new_can_log_entry(0, &newCanmsg);
 			changeDevData(state_ptr[counter].addr, state_ptr[counter].state);
 		}
 
@@ -148,7 +153,7 @@ int main(int argc, char** argv)
 
 	// close files, clear memory and stop spi access
 	free(state_ptr);
-	//bcm2835_spi_end();
+	bcm2835_spi_end();
 
 return 0;
 }

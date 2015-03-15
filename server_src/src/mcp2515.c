@@ -80,18 +80,15 @@ void mcp_init(void)
 	mcp_write_reg( RXM1EID8, 0 );
 	mcp_write_reg( RXM1EID0, 0 );
 
-	printf(":: Init mcp2515\n");
 
 		// enable normal mode
 	#ifdef NORMAL_MODE
    		mcp_bit_mod( CANCTRL, 0xE0, 0);
-   		printf(":: mcp2515 normal mode\n");
    	#endif
 
    	// for debugging enable loopback mode
 	#ifdef LOOPBACK_MODE
    		mcp_bit_mod(CANCTRL, 0xE0, 0x40);
-   		printf(":: mcp2515 loopback mode\n");
    	#endif
 
 

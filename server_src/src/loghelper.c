@@ -59,11 +59,14 @@ void new_log_entry(char *s)
 }
 
 
-void new_can_log_entry(Canmsg *s_msg)
+void new_can_log_entry(int dir, Canmsg *s_msg)
 {
 	char msg[250];
-
-	sprintf(msg, "Send Message Address: %" PRIu32" Length: %i Data0: %i Data1: %i\n", s_msg->id, s_msg->length, s_msg->data[0], s_msg->data[1]);
+	if (dir == 0)
+		sprintf(msg, "Send Message Address: %" PRIu32" Length: %i Data0: %i Data1: %i\n", s_msg->id, s_msg->length, s_msg->data[0], s_msg->data[1]);
+	else
+		sprintf(msg, "Receive Message Address: %" PRIu32" Length: %i Data0: %i Data1: %i\n", s_msg->id, s_msg->length, s_msg->data[0], s_msg->data[1]);
+	
 	new_log_entry(msg);
 
 	return;
