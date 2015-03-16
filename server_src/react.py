@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2.7
 
 #
 # Author: Felix Schulze
@@ -18,47 +18,56 @@ import myfunc as func
 from time import *
 
 
+
 if(len(sys.argv) < 3):
 	print ("Error use ./react.py addr state")
 	sys.exit()
 
+argaddr = sys.argv[1]
+argstate = sys.argv[2]
+
 timestamp = int(time())
 
+print ("./react\n")
+
 #change new data in xml file
-func.manipulateXML_State(int(sys.argv[1]), int(sys.argv[2]))
-func.manipulateXML_Timestamp(int(sys.argv[1]), timestamp)
+func.manipulateXML_State(int(argaddr), int(argstate))
+func.manipulateXML_Timestamp(int(argaddr), timestamp)
 
 #log change in extra file
-filename =  "./data/"+ sys.argv[1] + "-" + func.getSensName(int(sys.argv[1])) + "-" + func.getSensLocation(int(sys.argv[1])) + ".csv"
+
+filename =  "./data/"+ argaddr + "-" + func.getSensName(int(argaddr)) + "-" + func.getSensLocation(int(argaddr)) + ".csv"
 fd = open(filename, "a")
-fd.write(str(timestamp) + ", " + sys.argv[2] + "\n")
+fd.write(str(timestamp) + ", " + argstate + "\n")
 fd.close()
 
 
+
 # swtich0-kitchen 502, light0-kitchen 500
-if(sys.argv[1] == "502"):
+if(argaddr == "502"):
 
 	light0 = 500
 
-	func.manipulateXML_State(light0, int(sys.argv[2]))
+	func.manipulateXML_State(light0, int(argstate))
 	func.chgaddr(light0)
 	sys.exit()
 
 # dimmer0-kitchen 503, light1-kitchen 501
-if(sys.argv[1] == "503"):
+if(argaddr == "503"):
 
 	light1 = 501
 	
-	func.manipulateXML_State(light1, int(sys.argv[2]))
+	func.manipulateXML_State(light1, int(argstate))
 	func.chgaddr(light1)
 	sys.exit()
 
 # temperature-actual0-kitchen 504, temperature-target0-kitchen 505, heating0-kitchen 506
-if(sys.argv[1] == "504" or sys.argv[1] == "505" ):
+if(argaddr == "504" or argaddr == "505" ):
 	
 	temperatureActual0 = 504
 	temperatureTarget0 = 505
 	heating0 =  506
+	print ("heating")
 
 	#if acutal temperature less than target temperature heating on
 	if(int(func.getSensState(temperatureActual0)) < int(func.getSensState(temperatureTarget0))):

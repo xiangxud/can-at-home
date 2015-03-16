@@ -121,4 +121,4 @@ def chgaddr(addr):
 	for l in lines:
 		fd.write(l)
 
-	fd.close
+	fd.close()

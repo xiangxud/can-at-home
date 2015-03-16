@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2.7
 
 #
 # Author: Felix Schulze
@@ -22,16 +22,23 @@ if(len(sys.argv) < 3):
 	print ("Error use ./react.py addr state")
 	sys.exit()
 
+argaddr = sys.argv[1]
+argstate = sys.argv[2]
+
+
 timestamp = int(time())
 
 #change new data in xml file
-func.manipulateXML_State(int(sys.argv[1]), int(sys.argv[2]))
-func.manipulateXML_Timestamp(int(sys.argv[1]), timestamp)
+func.manipulateXML_State(int(argaddr), int(argstate))
+func.manipulateXML_Timestamp(int(argaddr), timestamp)
+
 
 #log change in extra file
-filename =  "./data/"+ sys.argv[1] + "-" + func.getSensName(int(sys.argv[1])) + "-" + func.getSensLocation(int(sys.argv[1])) + ".csv"
+
+filename =  "./data/"+ argaddr + "-" + func.getSensName(int(argaddr)) + "-" + func.getSensLocation(int(argaddr)) + ".csv"
 fd = open(filename, "a")
-fd.write(str(timestamp) + ", " + sys.argv[2] + "\n")
+fd.write(str(timestamp) + ", " + argstate + "\n")
 fd.close()
+
 
 sys.exit()
